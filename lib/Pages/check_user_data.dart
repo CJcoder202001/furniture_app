@@ -30,15 +30,13 @@ class _CheckUserDataState extends State<CheckUserData> {
             return const ErrorPage();
           }
           if (snapshot.hasData) {
-            print("Snapshot has data checkpoint");
-
             FirebaseAuth.instance.currentUser!.reload();
 
             Widget widget = FirebaseAuth.instance.currentUser!.emailVerified
                 ? const Homepage()
                 : const VerifyEmail();
+            return widget;
           }
-          print("Snapshot has no data checkpoint");
 
           return const Login_screen();
         },

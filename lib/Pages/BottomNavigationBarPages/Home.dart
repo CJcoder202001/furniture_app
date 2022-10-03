@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Functions/googleSignIn.dart';
 
 import 'package:furniture_app/Pages/product_page.dart';
 import 'package:furniture_app/naviigation_drawer.dart';
@@ -77,7 +78,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         key: _key,
         resizeToAvoidBottomInset: false,
-        drawer: const NavigationDrawer(),
+        drawer: NavigationDrawer(),
         body: ListView(
           children: [
             Row(
@@ -96,7 +97,7 @@ class _HomeState extends State<Home> {
                         size: MediaQuery.of(context).size.width * 0.12,
                       ),
                     ),
-                    Image.asset(logoLocation, scale: 8),
+                    Image.asset(biglogo, scale: 3),
                   ],
                 ),
                 Row(

@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/people.dart';
 import 'package:furniture_app/drawer_item.dart';
+import 'package:get/get.dart';
 
 class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+  NavigationDrawer({Key? key}) : super(key: key);
 
   static final User _user = FirebaseAuth.instance.currentUser!;
 
@@ -100,9 +103,11 @@ class NavigationDrawer extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 40,
-          backgroundImage: AssetImage("assets/images/Profile Image.png"),
+          backgroundImage: _user.photoURL == null
+              ? AssetImage("assets/images/Profile Image.png")
+              : CachedNetworkImageProvider(_user.photoURL!) as ImageProvider,
         ),
         const SizedBox(
           width: 20,
@@ -114,11 +119,12 @@ class NavigationDrawer extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.37,
               height: MediaQuery.of(context).size.height * 0.03,
               child: FittedBox(
-                fit: BoxFit.fill,
-                child: Text(_user.email ?? "Person",
+                child: Text(_user.displayName ?? "Person",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.025,
-                        color: Colors.orange)),
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(

@@ -6,14 +6,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/Login/Signup/login_screen.dart';
 import 'package:furniture_app/Pages/check_user_data.dart';
 import 'package:furniture_app/custom_shapes/socialcard.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:uuid/uuid.dart';
-
-GoogleSignInAccount? user;
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -30,6 +29,7 @@ class SignupPageState extends State<SignupPage> {
   FocusNode emailfocus = FocusNode();
   FocusNode mobilefocus = FocusNode();
   FocusNode passwordfocus = FocusNode();
+  GoogleSignInController googleController = Get.put(GoogleSignInController());
 
   @override
   void dispose() {
@@ -255,7 +255,7 @@ class SignupPageState extends State<SignupPage> {
                       icon: "assets/icons/google-icon.svg",
                       press: () async {
                         print("working");
-                        await googleSignIn();
+                        await googleController.googleLogIn();
                       },
                     ),
                     SocalCard(
@@ -277,7 +277,7 @@ class SignupPageState extends State<SignupPage> {
   }
 
   Future<void> firebaseSignin() async {
-    const Uuid _uuid = Uuid();
+    final uuid = const Uuid().v4();
     // print("Before signup checkpoint");
 
     try {
@@ -290,9 +290,9 @@ class SignupPageState extends State<SignupPage> {
           .ref()
           .child("Users")
           .child("Email Sign in")
-          .child(_uuid.v4())
+          .child(uuid)
           .set({
-        "unique id": _uuid.v4(),
+        "unique id": uuid,
         "Username": nameController.text.trim(),
         "Phone Number": phoneNumberController.text.trim(),
         "Email Id": emailcontroller.text.trim(),
@@ -318,38 +318,5 @@ class SignupPageState extends State<SignupPage> {
         ),
       ));
     }
-  }
-
-  Future googleSignIn() async {
-    const Uuid _uuid = Uuid();
-    user = null;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
-    GoogleSignInAccount? _user;
-
-    final googleuser = await googleSignIn.signIn();
-    if (googleuser == null) return;
-    _user = googleuser;
-
-    final googleAuth = await googleuser.authentication;
-    final Credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
-    user = _user;
-
-    await FirebaseAuth.instance.signInWithCredential(Credential);
-    await FirebaseDatabase.instance
-        .ref()
-        .child("Users")
-        .child("Google Sign in")
-        .child(_user.email)
-        .set({
-      "unique id": _uuid.v4(),
-      "Username": _user.displayName,
-      "Phone Number": "",
-      "Email Id": _user.email,
-      "type": "Google Sign in"
-    });
-    Get.to(() => const CheckUserData());
   }
 }

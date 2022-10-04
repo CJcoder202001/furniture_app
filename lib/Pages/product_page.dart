@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_app/Custom_presets/Main_naming.dart';
 
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Custom_presets/storedata.dart';
+import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,10 +15,13 @@ class ProductPage extends StatefulWidget {
 
   final String productname;
 
+  final currentindex;
+
   const ProductPage(
       {Key? key,
       required this.imageurl,
       required this.productname,
+      required this.currentindex,
       required this.price})
       : super(key: key);
 
@@ -27,7 +33,9 @@ class _ProductPageState extends State<ProductPage> {
   //Variable to add or remove item from favorite list
   bool isfavorite = false;
 
-  int currentindex = 0;
+  int colorcurrentindex = 0;
+
+  StoreDataController dataController = Get.find();
 
   List<Color> colors = [
     Colors.brown,
@@ -58,7 +66,8 @@ class _ProductPageState extends State<ProductPage> {
                         size: MediaQuery.of(context).size.width * 0.07,
                       ),
                     ),
-                    Image.asset("assets/images/logo/logo.png", scale: 8),
+                    Image.asset(biglogo,
+                        scale: MediaQuery.of(context).size.width * 0.01),
                   ],
                 ),
                 Row(
@@ -68,9 +77,12 @@ class _ProductPageState extends State<ProductPage> {
                       size: MediaQuery.of(context).size.width * 0.07,
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(
-                      Icons.favorite_border,
-                      size: MediaQuery.of(context).size.width * 0.07,
+                    GestureDetector(
+                      onTap: () => Get.to(() => const FavoriteProductPage()),
+                      child: Icon(
+                        Icons.favorite_border,
+                        size: MediaQuery.of(context).size.width * 0.07,
+                      ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Icon(
@@ -152,19 +164,41 @@ class _ProductPageState extends State<ProductPage> {
                                               0.025),
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    isfavorite = !isfavorite;
-                                  });
-                                },
-                                child: Icon(
-                                  isfavorite
-                                      ? Icons.favorite_outlined
-                                      : Icons.favorite_border_outlined,
-                                  color: Colors.orange,
-                                  size: MediaQuery.of(context).size.width * 0.1,
-                                ),
+                              Obx(
+                                (() => InkWell(
+                                      onTap: () {
+                                        print(widget.currentindex);
+
+                                        int index = dataController
+                                            .favoriteProducts
+                                            .indexWhere((element) =>
+                                                element.itemName ==
+                                                newinStoreData[widget.currentindex]
+                                                    .itemName);
+                                        index == -1
+                                            ? {
+                                                dataController
+                                                    .addProducttoFavorite(
+                                                        newinStoreData[
+                                                            widget.currentindex])
+                                              }
+                                            : {
+                                                dataController
+                                                    .removefromFavorite(index)
+                                              };
+                                      },
+                                      child: Icon(
+                                        dataController.favoriteProducts
+                                                .contains(newinStoreData[
+                                                    widget.currentindex])
+                                            ? Icons.favorite_outlined
+                                            : Icons.favorite_border_outlined,
+                                        color: Colors.orange,
+                                        size:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                      ),
+                                    )),
                               )
                             ],
                           ),
@@ -190,23 +224,23 @@ class _ProductPageState extends State<ProductPage> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              currentindex = index;
+                              colorcurrentindex = index;
                             });
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                                height: currentindex == index
+                                height: colorcurrentindex == index
                                     ? MediaQuery.of(context).size.height * 0.16
                                     : MediaQuery.of(context).size.height * 0.15,
-                                width: currentindex == index
+                                width: colorcurrentindex == index
                                     ? MediaQuery.of(context).size.width * 0.16
                                     : MediaQuery.of(context).size.width * 0.15,
                                 decoration: BoxDecoration(
                                     color: colors[index],
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
-                                      currentindex == index
+                                      colorcurrentindex == index
                                           ? const BoxShadow(
                                               color: Color.fromARGB(
                                                   255, 80, 80, 80),

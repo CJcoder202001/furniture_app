@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Custom_presets/storedata.dart';
 import 'package:furniture_app/Pages/Homepage.dart';
 import 'package:furniture_app/Pages/product_page.dart';
 import 'package:get/get.dart';
@@ -18,75 +19,6 @@ class _StoreState extends State<Store> {
   int currenttab = 0;
   int currenttab2 = -1;
   bool istabopen = false;
-
-  final List<String> recommendcategory = const [
-    "Living room",
-    "Bedroom",
-    "Kitchen & Dining room",
-    "Decoration",
-    "Balcony",
-    "Garage"
-  ];
-
-  final List<Map> newinStoreData = [
-    {
-      "ItemName": "MaharajaBed",
-      "Price": 7000,
-      "ImageUrl":
-          "https://images.pexels.com/photos/1374125/pexels-photo-1374125.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
-    {
-      "ItemName": "OldSofa",
-      "Price": 1000,
-      "ImageUrl":
-          "https://images.pexels.com/photos/105004/pexels-photo-105004.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
-    {
-      "ItemName": "DoubleBed",
-      "Price": 7000,
-      "ImageUrl":
-          "https://images.pexels.com/photos/3201761/pexels-photo-3201761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-    {
-      "ItemName": "ModernSofa",
-      "Price": 1200,
-      "ImageUrl":
-          "https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
-    {
-      "ItemName": "ExportedSofa",
-      "Price": 3400,
-      "ImageUrl":
-          "https://images.pexels.com/photos/1885562/pexels-photo-1885562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-  ];
-
-  final List<Map<dynamic, dynamic>> Newcategory = [
-    {
-      "CategoryName": "Sofas",
-      "Subcategory": ["New Sofa", "Old Sofa", "Modern sofa", "Exported Sofa"]
-    },
-    {
-      "CategoryName": "Tv & Media Furniture",
-      "Subcategory": ["New Sofa", "Old Sofa", "Modern sofa", "Exported Sofa"]
-    },
-    {
-      "CategoryName": "Coffee table",
-      "Subcategory": ["New Sofa", "Old Sofa", "Modern sofa", "Exported Sofa"]
-    },
-    {
-      "CategoryName": "Cabinets",
-      "Subcategory": ["New Sofa", "Old Sofa", "Modern sofa", "Exported Sofa"]
-    },
-    {
-      "CategoryName": "Bookcase and shelving",
-      "Subcategory": ["New Sofa", "Old Sofa", "Modern sofa", "Exported Sofa"]
-    },
-    {
-      "CategoryName": "Rugs",
-      "Subcategory": ["New Sofa", "Old Sofa", "Modern sofa", "Exported Sofa"]
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +152,7 @@ class _StoreState extends State<Store> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(Newcategory[index]["CategoryName"]),
+                                Text(Newcategory[index].categoryName),
                                 currenttab2 == index
                                     ? const Icon(Icons.arrow_upward)
                                     : const Icon(Icons.arrow_downward),
@@ -228,7 +160,7 @@ class _StoreState extends State<Store> {
                             ),
                           ),
                         ),
-                        ...(Newcategory[index]["Subcategory"] as List<String>)
+                        ...(Newcategory[index].subcategory as List<String>)
                             .map(
                           (data) => currenttab2 == index
                               ? Padding(
@@ -288,9 +220,10 @@ class _StoreState extends State<Store> {
                 return GestureDetector(
                   onTap: () {
                     Get.to(() => ProductPage(
-                        imageurl: newinStoreData[index]["ImageUrl"],
-                        productname: newinStoreData[index]["ItemName"],
-                        price: newinStoreData[index]["Price"]));
+                        currentindex: index,
+                        imageurl: newinStoreData[index].imageUrl,
+                        productname: newinStoreData[index].itemName,
+                        price: newinStoreData[index].price));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -302,23 +235,23 @@ class _StoreState extends State<Store> {
                         child: Column(
                           children: [
                             Hero(
-                              tag: newinStoreData[index]["ImageUrl"],
+                              tag: newinStoreData[index].imageUrl,
                               child: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.23,
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 child: CachedNetworkImage(
-                                  imageUrl: newinStoreData[index]["ImageUrl"],
+                                  imageUrl: newinStoreData[index].imageUrl,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             Row(
                               children: [
-                                Text(newinStoreData[index]["ItemName"]),
+                                Text(newinStoreData[index].itemName),
                                 const Spacer(),
                                 Text(
-                                  "₹${newinStoreData[index]["Price"].toString()}",
+                                  "₹${newinStoreData[index].price.toString()}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 )

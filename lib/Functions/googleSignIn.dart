@@ -12,7 +12,7 @@ class GoogleSignInController extends GetxController {
   RxInt value = 0.obs;
 
   Future<void> googleLogIn() async {
-    final uuid = Uuid().v4();
+    final uuid = const Uuid().v4();
 
     final googleuser = await googleSignIn.signIn();
     if (googleuser == null) return;

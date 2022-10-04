@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Custom_presets/storedata.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
+import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 
 import 'package:furniture_app/Pages/product_page.dart';
 import 'package:furniture_app/naviigation_drawer.dart';
@@ -28,48 +30,6 @@ class _HomeState extends State<Home> {
     searchController.dispose();
     super.dispose();
   }
-
-  final List<String> recommendcategory = const [
-    "Living room",
-    "Bedroom",
-    "Kitchen & Dining room",
-    "Decoration",
-    "Balcony",
-    "Garage"
-  ];
-
-  final List<Map> NewinStoreData = [
-    {
-      "ItemName": "MaharajaBed",
-      "Price": 7000,
-      "ImageUrl":
-          "https://images.pexels.com/photos/1374125/pexels-photo-1374125.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
-    {
-      "ItemName": "OldSofa",
-      "Price": 1000,
-      "ImageUrl":
-          "https://images.pexels.com/photos/105004/pexels-photo-105004.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
-    {
-      "ItemName": "DoubleBed",
-      "Price": 7000,
-      "ImageUrl":
-          "https://images.pexels.com/photos/3201761/pexels-photo-3201761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-    {
-      "ItemName": "ModernSofa",
-      "Price": 1200,
-      "ImageUrl":
-          "https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=1600"
-    },
-    {
-      "ItemName": "ExportedSofa",
-      "Price": 3400,
-      "ImageUrl":
-          "https://images.pexels.com/photos/1885562/pexels-photo-1885562.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +62,14 @@ class _HomeState extends State<Home> {
                 ),
                 Row(
                   children: [
-                    Icon(
-                      Icons.favorite_border,
-                      size: MediaQuery.of(context).size.width * 0.07,
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => FavoriteProductPage());
+                      },
+                      child: Icon(
+                        Icons.favorite_border,
+                        size: MediaQuery.of(context).size.width * 0.07,
+                      ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Icon(
@@ -483,51 +448,53 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                addRepaintBoundaries: true,
-                itemCount: NewinStoreData.length,
+
+                itemCount: newinStoreData.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
+                      print(index);
                       Get.to(() => ProductPage(
-                          imageurl: NewinStoreData[index]["ImageUrl"],
-                          productname: NewinStoreData[index]["ItemName"],
-                          price: NewinStoreData[index]["Price"]));
+                          currentindex: index,
+                          imageurl: newinStoreData[index].imageUrl,
+                          productname: newinStoreData[index].itemName,
+                          price: newinStoreData[index].price));
                     },
-                    child: Hero(
-                      tag: NewinStoreData[index]["ImageUrl"],
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.28,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: Column(
-                              children: [
-                                SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.28,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                            children: [
+                              Hero(
+                                tag: newinStoreData[index].imageUrl,
+                                child: SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.23,
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: CachedNetworkImage(
-                                    imageUrl: NewinStoreData[index]["ImageUrl"],
+                                    imageUrl: newinStoreData[index].imageUrl,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Text(NewinStoreData[index]["ItemName"]),
-                                    const Spacer(),
-                                    Text(
-                                      "₹${NewinStoreData[index]["Price"].toString()}",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(newinStoreData[index].itemName),
+                                  const Spacer(),
+                                  Text(
+                                    "₹${newinStoreData[index].price.toString()}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            ],
                           ),
                         ),
                       ),

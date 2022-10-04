@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/people.dart';
 import 'package:furniture_app/drawer_item.dart';
@@ -81,6 +82,32 @@ class NavigationDrawer extends StatelessWidget {
                   name: 'Log out',
                   icon: Icons.logout,
                   onPressed: () async => await FirebaseAuth.instance.signOut()),
+              const Spacer(),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "©Copyright by",
+                        style: TextStyle(
+                            color: Colors.orange,
+                            fontSize: MediaQuery.of(context).size.width * 0.03),
+                      ),
+                      Image.asset(
+                        logoLocation,
+                        scale: MediaQuery.of(context).size.width * 0.01,
+                      )
+                    ],
+                  ),
+                  Text(
+                    "All right reserved.",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: MediaQuery.of(context).size.width * 0.02),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -106,7 +133,7 @@ class NavigationDrawer extends StatelessWidget {
         CircleAvatar(
           radius: 40,
           backgroundImage: _user.photoURL == null
-              ? AssetImage("assets/images/Profile Image.png")
+              ? const AssetImage("assets/images/Profile Image.png")
               : CachedNetworkImageProvider(_user.photoURL!) as ImageProvider,
         ),
         const SizedBox(

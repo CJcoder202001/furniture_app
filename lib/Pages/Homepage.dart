@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:furniture_app/Custom_presets/storedata.dart';
 import 'package:furniture_app/Pages/BottomNavigationBarPages/Home.dart';
 import 'package:furniture_app/Pages/BottomNavigationBarPages/Store.dart';
 import 'package:furniture_app/Pages/BottomNavigationBarPages/profile.dart';
+import 'package:get/get.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -16,6 +18,8 @@ class _HomepageState extends State<Homepage> {
   int currentPage = 0;
 
   List pages = const [Home(), Store(), ProfileScreen()];
+
+  StoreDataController controller = Get.put(StoreDataController());
 
   @override
   Widget build(BuildContext context) {

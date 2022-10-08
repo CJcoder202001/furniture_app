@@ -1,6 +1,6 @@
-# furniture_app
+# Furniture App
 
-A new Flutter project.
+A Furniture App Flutter project using Firebase, Google, Hive, Getx and other third party packages.
 
 ## Getting Started
 

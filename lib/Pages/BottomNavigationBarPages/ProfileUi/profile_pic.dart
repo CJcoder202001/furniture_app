@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -5,6 +7,8 @@ class ProfilePic extends StatelessWidget {
   const ProfilePic({
     Key? key,
   }) : super(key: key);
+
+  static final User user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +31,10 @@ class ProfilePic extends StatelessWidget {
               left: 3,
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width * 0.115,
-                backgroundImage:
-                    const AssetImage("assets/images/Profile Image.png"),
+                backgroundImage: user.photoURL!.isEmpty
+                    ? const AssetImage("assets/images/Profile Image.png")
+                    : CachedNetworkImageProvider(user.photoURL!)
+                        as ImageProvider,
               ),
             ),
             Positioned(

@@ -114,9 +114,9 @@ class _CartPageState extends State<CartPage> {
                                 MediaQuery.of(context).size.width * 0.9,
                                 MediaQuery.of(context).size.height * 0.05)),
                         onPressed: () {},
-                        icon: const Icon(Icons.shopping_cart),
+                        icon: const Icon(Icons.shopping_bag),
                         label: Text(
-                          "Add to cart",
+                          "Checkout",
                           style: TextStyle(
                               fontSize:
                               MediaQuery.of(context).size.width * 0.06),
@@ -131,7 +131,7 @@ class _CartPageState extends State<CartPage> {
                     vertical: MediaQuery.of(context).size.height * 0.02),
                 child: Center(
                   child: Text(
-                    "Favorite Products",
+                    "Cart Products",
                     style: TextStyle(
                         color: Colors.orange,
                         fontWeight: FontWeight.bold,

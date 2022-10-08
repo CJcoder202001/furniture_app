@@ -160,8 +160,7 @@ class _StoreState extends State<Store> {
                             ),
                           ),
                         ),
-                        ...(Newcategory[index].subcategory as List<String>)
-                            .map(
+                        ...(Newcategory[index].subcategory as List<String>).map(
                           (data) => currenttab2 == index
                               ? Padding(
                                   padding: const EdgeInsets.all(5.0),
@@ -210,7 +209,7 @@ class _StoreState extends State<Store> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.28,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -230,7 +229,7 @@ class _StoreState extends State<Store> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.28,
+                        height: MediaQuery.of(context).size.height * 0.25,
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Column(
                           children: [

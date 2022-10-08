@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(canvasColor: color2, fontFamily: 'Montserrat'),
+        debugShowCheckedModeBanner: false,
         home: const SplashScreen());
   }
 }

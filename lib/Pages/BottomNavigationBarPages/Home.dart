@@ -6,6 +6,7 @@ import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
+import 'package:furniture_app/Pages/Mycart/cartpage.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 
 import 'package:furniture_app/Pages/product_page.dart';
@@ -72,9 +73,14 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(
-                      Icons.shopping_cart_outlined,
-                      size: MediaQuery.of(context).size.width * 0.07,
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => const CartPage());
+                      },
+                      child: Icon(
+                        Icons.shopping_cart_outlined,
+                        size: MediaQuery.of(context).size.width * 0.07,
+                      ),
                     ),
                   ],
                 )
@@ -448,7 +454,6 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-
                 itemCount: newinStoreData.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {

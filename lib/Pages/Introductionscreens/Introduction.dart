@@ -88,12 +88,18 @@ class _IntroductionPageState extends State<IntroductionPage> {
       showNextButton: true,
       showSkipButton: true,
       isBottomSafeArea: true,
-      skip: const Text("Skip", style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: Text("Skip",
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: MediaQuery.of(context).size.width * 0.05)),
       next: Icon(
         Icons.arrow_forward,
         size: MediaQuery.of(context).size.width * 0.08,
       ),
-      done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+      done: Text("Done",
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: MediaQuery.of(context).size.width * 0.05)),
     );
   }
 

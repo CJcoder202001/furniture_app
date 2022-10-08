@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
+import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
+import 'package:furniture_app/Pages/error.dart';
 import 'package:furniture_app/Pages/people.dart';
 import 'package:furniture_app/drawer_item.dart';
 import 'package:get/get.dart';
@@ -37,7 +39,7 @@ class NavigationDrawer extends StatelessWidget {
               DrawerItem(
                 name: 'People',
                 icon: Icons.people,
-                onPressed: () => onItemPressed(context, index: 0),
+                onPressed: () {},
               ),
               const SizedBox(
                 height: 30,
@@ -45,21 +47,23 @@ class NavigationDrawer extends StatelessWidget {
               DrawerItem(
                   name: 'My Account',
                   icon: Icons.account_box_rounded,
-                  onPressed: () => onItemPressed(context, index: 1)),
+                  onPressed: () {}),
               const SizedBox(
                 height: 30,
               ),
               DrawerItem(
                   name: 'Chats',
                   icon: Icons.message_outlined,
-                  onPressed: () => onItemPressed(context, index: 2)),
+                  onPressed: () {}),
               const SizedBox(
                 height: 30,
               ),
               DrawerItem(
                   name: 'Favourites',
                   icon: Icons.favorite_outline,
-                  onPressed: () => onItemPressed(context, index: 3)),
+                  onPressed: () {
+                    Get.to(() => const FavoriteProductPage());
+                  }),
               const SizedBox(
                 height: 30,
               ),
@@ -74,7 +78,9 @@ class NavigationDrawer extends StatelessWidget {
               DrawerItem(
                   name: 'Setting',
                   icon: Icons.settings,
-                  onPressed: () => onItemPressed(context, index: 4)),
+                  onPressed: () {
+                    Get.to(() => const ErrorPage());
+                  }),
               const SizedBox(
                 height: 30,
               ),

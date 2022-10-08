@@ -17,37 +17,45 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Timer? _timer;
   static String loadingIndicator = "assets/images/loading .gif";
   static String doneIndicator = "assets/images/Done .gif";
+  static final User user = FirebaseAuth.instance.currentUser!;
 
   String currentIndicator = loadingIndicator;
   @override
   void initState() {
     super.initState();
+    print("at initstate before verify email process");
     verifyEmailProcess();
+    print("at initstate after verify email process");
   }
 
   void verifyEmailProcess() async {
+    print("inside verify email function");
     await sendVerifyEmail;
+    print("inside verify email function after sendverifyemail");
     _timer = Timer.periodic(
         const Duration(seconds: 3), (timer) => isemailverified());
+    print("inside verify email function after timer");
   }
 
-  isemailverified() async {
-
-    FirebaseAuth.instance.currentUser!.reload();
+  isemailverified() {
     FirebaseAuth.instance.currentUser!.emailVerified
         ? setState(() {
-            _timer?.cancel();
+            print("1");
             currentIndicator = doneIndicator;
-
+            print("2");
             Get.to(() => const CheckUserData());
+            print("3");
+            _timer?.cancel();
+            print("4");
           })
-        : setState(() {
-
-          });
+        : setState(() {});
   }
 
-  Future<void> get sendVerifyEmail async =>
-      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  Future<void> get sendVerifyEmail async {
+    print("before sending email");
+    await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+    print("sending email");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +70,20 @@ class _VerifyEmailState extends State<VerifyEmail> {
             "Check your Email address",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          const Text(
-              "Check your email address and verify by clicking the link we send you on your email address")
+          Text(
+            user.email!,
+            style:
+                TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+                vertical: MediaQuery.of(context).size.height * 0.02),
+            child: const Text(
+              "Check your email address and verify by clicking the link we send you on your email address",
+              textAlign: TextAlign.center,
+            ),
+          )
         ],
       )),
     );

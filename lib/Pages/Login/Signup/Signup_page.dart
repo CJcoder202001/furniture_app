@@ -138,6 +138,7 @@ class SignupPageState extends State<SignupPage> {
                   child: TextFormField(
                       focusNode: emailfocus,
                       controller: emailcontroller,
+                      autofillHints: [AutofillHints.email],
                       decoration:
                           const InputDecoration(border: InputBorder.none),
                       onFieldSubmitted: (value) {
@@ -299,10 +300,10 @@ class SignupPageState extends State<SignupPage> {
         "Password": passwordcontroller.text.trim(),
         "type": "Email Sign in"
       });
-      // print("after database checkpoint");
+      print("after database checkpoint");
 
       Get.to(() => const CheckUserData());
-      // print("after route checkpoint");
+      print("after route checkpoint");
     } catch (error) {
       // print(error.toString());
 

@@ -48,7 +48,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
             _timer?.cancel();
             print("4");
           })
-        : setState(() {});
+        : FirebaseAuth.instance.currentUser!.reload();
   }
 
   Future<void> get sendVerifyEmail async {

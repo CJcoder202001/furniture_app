@@ -10,11 +10,16 @@ import 'package:furniture_app/Pages/people.dart';
 import 'package:furniture_app/drawer_item.dart';
 import 'package:get/get.dart';
 
-class NavigationDrawer extends StatelessWidget {
+class NavigationDrawer extends StatefulWidget {
   NavigationDrawer({Key? key}) : super(key: key);
 
   static final User _user = FirebaseAuth.instance.currentUser!;
 
+  @override
+  State<NavigationDrawer> createState() => _NavigationDrawerState();
+}
+
+class _NavigationDrawerState extends State<NavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -138,9 +143,10 @@ class NavigationDrawer extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 40,
-          backgroundImage: _user.photoURL == null
+          backgroundImage: NavigationDrawer._user.photoURL == null
               ? const AssetImage("assets/images/Profile Image.png")
-              : CachedNetworkImageProvider(_user.photoURL!) as ImageProvider,
+              : CachedNetworkImageProvider(NavigationDrawer._user.photoURL!)
+          as ImageProvider,
         ),
         const SizedBox(
           width: 20,
@@ -152,7 +158,7 @@ class NavigationDrawer extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.37,
               height: MediaQuery.of(context).size.height * 0.03,
               child: FittedBox(
-                child: Text(_user.displayName ?? "Person",
+                child: Text(NavigationDrawer._user.displayName ?? "Person",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.025,
@@ -168,7 +174,7 @@ class NavigationDrawer extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.02,
               child: FittedBox(
                 fit: BoxFit.fill,
-                child: Text(_user.email ?? "Email.id",
+                child: Text(NavigationDrawer._user.email ?? "Email.id",
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.025,
                         color: Colors.orange)),

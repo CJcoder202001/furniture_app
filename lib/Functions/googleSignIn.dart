@@ -17,6 +17,25 @@ class GoogleSignInController extends GetxController {
     final googleuser = await googleSignIn.signIn();
     if (googleuser == null) return;
     _user = googleuser;
+    await checkIsUserSignedIn();
+
+    final googleAuth = await googleuser.authentication;
+    final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
+    Get.to(() => const CheckUserData());
+  }
+
+  checkIsUserSignedIn() async {}
+
+  Future<void> googlesignIn() async {
+    final uuid = const Uuid().v4();
+
+    final googleuser = await googleSignIn.signIn();
+    if (googleuser == null) return;
+    _user = googleuser;
 
     final googleAuth = await googleuser.authentication;
     final credential = GoogleAuthProvider.credential(
@@ -27,7 +46,7 @@ class GoogleSignInController extends GetxController {
         .ref()
         .child("Users")
         .child("Google Sign in")
-        .child(uuid)
+        .child(removeSpecialCharacters(user.email))
         .set({
       "unique id": uuid,
       "Username": user.displayName,
@@ -37,4 +56,8 @@ class GoogleSignInController extends GetxController {
     });
     Get.to(() => const CheckUserData());
   }
+}
+
+String removeSpecialCharacters(String text) {
+  return text.replaceAll("@", "").replaceAll(".", "");
 }

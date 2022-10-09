@@ -31,7 +31,7 @@ class ProfilePic extends StatelessWidget {
               left: 3,
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width * 0.115,
-                backgroundImage: user.photoURL!.isEmpty
+                backgroundImage: user.photoURL == null
                     ? const AssetImage("assets/images/Profile Image.png")
                     : CachedNetworkImageProvider(user.photoURL!)
                         as ImageProvider,

@@ -5,8 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Functions/firebase.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/Login/Signup/Signup_page.dart';
+import 'package:furniture_app/Pages/check_User_Data.dart';
 
 import 'package:furniture_app/custom_shapes/socialcard.dart';
 import 'package:get/get.dart';
@@ -25,6 +27,7 @@ class _Login_screenState extends State<Login_screen> {
   FocusNode passwordfocus = FocusNode();
 
   GoogleSignInController googleController = Get.put(GoogleSignInController());
+  FirebaseController firebaseController = Get.put(FirebaseController());
   bool isloading = false;
 
   @override
@@ -39,9 +42,12 @@ class _Login_screenState extends State<Login_screen> {
     final FormState form = _formKey.currentState!;
     if (form.validate()) {
       try {
+
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailcontroller.text.trim(),
             password: Passwordcontroller.text.trim());
+
+        Get.to(()=>const CheckUserData());
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           elevation: 0,

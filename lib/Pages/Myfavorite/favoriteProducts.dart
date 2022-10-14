@@ -119,7 +119,7 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                             fixedSize: Size(
                                 MediaQuery.of(context).size.width * 0.9,
                                 MediaQuery.of(context).size.height * 0.05)),
-                        onPressed: () {},
+                        onPressed: () async {},
                         icon: const Icon(Icons.shopping_cart),
                         label: Text(
                           "Add to cart",

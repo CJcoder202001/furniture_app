@@ -1,9 +1,41 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:furniture_app/models/product_category.dart';
+import 'package:furniture_app/models/product_data.dart';
+import 'package:furniture_app/models/product_data_model.dart';
 import 'package:furniture_app/models/product_model.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class StoreDataController extends GetxController {
   RxList<ProductModel> favoriteProducts = <ProductModel>[].obs;
+  RxList updatedProducts = [].obs;
+  List productsdata = [].obs;
+
+  Future restapidata() async {
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://07b7753f-309a-40b6-a52b-d3b1e0fb934b.mock.pstmn.io/products'));
+    request.body = '''''';
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var body = await response.stream.bytesToString();
+
+      ProductDataListResponse productDataListResponse =
+          ProductDataListResponse.fromJson(jsonDecode(body));
+      productsdata = productDataListResponse.productDataList;
+
+      productsdata.forEach((element) {
+        updatedProducts.add(element);
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
 
   addProducttoFavorite(ProductModel Product) {
     favoriteProducts.add(Product);
@@ -11,6 +43,14 @@ class StoreDataController extends GetxController {
 
   removefromFavorite(int index) {
     favoriteProducts.removeAt(index);
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    restapidata();
+    print(productsdata);
   }
 }
 

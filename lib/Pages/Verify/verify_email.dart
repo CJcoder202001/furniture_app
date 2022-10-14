@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Pages/check_user_data.dart';
 import 'package:get/get.dart';
 
@@ -38,15 +39,13 @@ class _VerifyEmailState extends State<VerifyEmail> {
   }
 
   isemailverified() {
+    print("inside email verified");
     FirebaseAuth.instance.currentUser!.emailVerified
         ? setState(() {
             print("1");
             currentIndicator = doneIndicator;
-            print("2");
-            Get.to(() => const CheckUserData());
-            print("3");
+
             _timer?.cancel();
-            print("4");
           })
         : FirebaseAuth.instance.currentUser!.reload();
   }
@@ -60,32 +59,44 @@ class _VerifyEmailState extends State<VerifyEmail> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(currentIndicator),
-          const Text(
-            "Check your Email address",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            user.email!,
-            style:
-                TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.05,
-                vertical: MediaQuery.of(context).size.height * 0.02),
-            child: const Text(
-              "Check your email address and verify by clicking the link we send you on your email address",
-              textAlign: TextAlign.center,
+      child: Scaffold(
+        backgroundColor: color1,
+        body: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(currentIndicator),
+            const Text(
+              "Check your Email address",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          )
-        ],
-      )),
+            Text(
+              user.email!,
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.05,
+                  vertical: MediaQuery.of(context).size.height * 0.02),
+              child: const Text(
+                "Check your email address and verify by clicking the link we send you on your email address",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            currentIndicator == doneIndicator
+                ? ElevatedButton.icon(
+                    onPressed: () {
+                      print("working");
+                      Get.to(() => const CheckUserData());
+                    },
+                    icon: const Icon(Icons.home),
+                    label: Text("Go to homepage"))
+                : Container(),
+          ],
+        )),
+      ),
     );
   }
 }

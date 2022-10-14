@@ -5,25 +5,14 @@ import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
+import 'package:furniture_app/models/product_data.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductPage extends StatefulWidget {
-  final String imageurl;
+  final Productdata product;
 
-  final int price;
-
-  final String productname;
-
-  final currentindex;
-
-  const ProductPage(
-      {Key? key,
-      required this.imageurl,
-      required this.productname,
-      required this.currentindex,
-      required this.price})
-      : super(key: key);
+  const ProductPage({Key? key, required this.product}) : super(key: key);
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -97,7 +86,7 @@ class _ProductPageState extends State<ProductPage> {
               height: MediaQuery.of(context).size.height * 0.01,
             ),
             Text(
-              widget.productname,
+              widget.product.title,
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.04,
                   fontWeight: FontWeight.bold),
@@ -108,14 +97,17 @@ class _ProductPageState extends State<ProductPage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
+
                   child: Hero(
-                    tag: widget.imageurl,
+                    tag: widget.product.id,
                     child: CachedNetworkImage(
-                      imageUrl: widget.imageurl,
-                      fit: BoxFit.cover,
+                      imageUrl: widget.product.image,
+                      fit: BoxFit.contain,
                     ),
                   )),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.01,
             ),
             Container(
               decoration: BoxDecoration(
@@ -137,7 +129,7 @@ class _ProductPageState extends State<ProductPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "₹${widget.price.toString()}",
+                                "₹${widget.product.price.toString()}",
                                 style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).size.width * 0.1,
@@ -167,30 +159,28 @@ class _ProductPageState extends State<ProductPage> {
                               Obx(
                                 (() => InkWell(
                                       onTap: () {
-                                        print(widget.currentindex);
 
-                                        int index = dataController
-                                            .favoriteProducts
-                                            .indexWhere((element) =>
-                                                element.itemName ==
-                                                newinStoreData[widget.currentindex]
-                                                    .itemName);
-                                        index == -1
-                                            ? {
-                                                dataController
-                                                    .addProducttoFavorite(
-                                                        newinStoreData[
-                                                            widget.currentindex])
-                                              }
-                                            : {
-                                                dataController
-                                                    .removefromFavorite(index)
-                                              };
+
+                                        // int index = dataController
+                                        //     .favoriteProducts
+                                        //     .indexWhere((element) =>
+                                        //         element.itemName ==
+                                        //             widget.product
+                                        //             .title);
+                                        // index == -1
+                                        //     ? {
+                                        //         dataController
+                                        //             .addProducttoFavorite(
+                                        //             widget.product)
+                                        //       }
+                                        //     : {
+                                        //         dataController
+                                        //             .removefromFavorite(index)
+                                        //       };
                                       },
                                       child: Icon(
                                         dataController.favoriteProducts
-                                                .contains(newinStoreData[
-                                                    widget.currentindex])
+                                                .contains(widget.product)
                                             ? Icons.favorite_outlined
                                             : Icons.favorite_border_outlined,
                                         color: Colors.orange,
@@ -351,10 +341,10 @@ class _ProductPageState extends State<ProductPage> {
                       decoration: BoxDecoration(
                           color: color2,
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Padding(
+                      child:  Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                          widget.product.description,
                           textAlign: TextAlign.center,
                         ),
                       ),

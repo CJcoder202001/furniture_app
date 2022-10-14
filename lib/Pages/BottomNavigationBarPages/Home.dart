@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
   final FocusNode _searchTabFocus = FocusNode();
   final GlobalKey<ScaffoldState> _key = GlobalKey(); //A key for opening drawer
+  StoreDataController dataController = Get.find();
 
   @override
   void dispose() {
@@ -452,19 +453,15 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.27,
               width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
+              child: Obx(() => ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: newinStoreData.length,
+                itemCount: dataController.updatedProducts.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      print(index);
                       Get.to(() => ProductPage(
-                          currentindex: index,
-                          imageurl: newinStoreData[index].imageUrl,
-                          productname: newinStoreData[index].itemName,
-                          price: newinStoreData[index].price));
+                           product: dataController.updatedProducts[index],));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -476,24 +473,32 @@ class _HomeState extends State<Home> {
                           child: Column(
                             children: [
                               Hero(
-                                tag: newinStoreData[index].imageUrl,
+                                tag: dataController.updatedProducts[index].id,
                                 child: SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.23,
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: CachedNetworkImage(
-                                    imageUrl: newinStoreData[index].imageUrl,
+                                    imageUrl: dataController
+                                        .updatedProducts[index].image,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                               Row(
                                 children: [
-                                  Text(newinStoreData[index].itemName),
+                                  SizedBox(
+                                    width:MediaQuery.of(context).size.width*0.25,
+                                    child: FittedBox(
+                                      fit: BoxFit.cover,
+                                      child: Text(
+                                          dataController.updatedProducts[index].title),
+                                    ),
+                                  ),
                                   const Spacer(),
                                   Text(
-                                    "₹${newinStoreData[index].price.toString()}",
+                                    "₹${dataController.updatedProducts[index].price.toString()}",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   )
@@ -506,7 +511,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 },
-              ),
+              )),
             ),
           ],
         ),

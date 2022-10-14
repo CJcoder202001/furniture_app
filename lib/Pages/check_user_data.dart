@@ -39,10 +39,9 @@ class _CheckUserDataState extends State<CheckUserData> {
                 ? const Homepage()
                 : const VerifyEmail();
 
-
             return widget;
           }
-
+          print("i'm here");
           return const Login_screen();
         },
       ),

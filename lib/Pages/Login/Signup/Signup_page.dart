@@ -6,8 +6,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Functions/firebase.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/Login/Signup/login_screen.dart';
+import 'package:furniture_app/Pages/Verify/verify_email.dart';
 import 'package:furniture_app/Pages/check_user_data.dart';
 import 'package:furniture_app/custom_shapes/socialcard.dart';
 import 'package:get/get.dart';
@@ -30,6 +32,7 @@ class SignupPageState extends State<SignupPage> {
   FocusNode mobilefocus = FocusNode();
   FocusNode passwordfocus = FocusNode();
   GoogleSignInController googleSignInController = Get.find();
+  FirebaseController firebaseController = Get.find();
   bool isloading = false;
 
   @override
@@ -56,10 +59,10 @@ class SignupPageState extends State<SignupPage> {
         children: [
           isloading
               ? const Center(
-                child: CircularProgressIndicator(
+                  child: CircularProgressIndicator(
                     color: Colors.orange,
                   ),
-              )
+                )
               : Container(),
           ListView(
             physics: const NeverScrollableScrollPhysics(),
@@ -196,7 +199,12 @@ class SignupPageState extends State<SignupPage> {
                           setState(() {
                             isloading = true;
                           });
-                          await firebaseSignin();
+                          await firebaseController.firebaseSignin(
+                              nameController.text.trim(),
+                              phoneNumberController.text.trim(),
+                              emailcontroller.text.trim(),
+                              passwordcontroller.text.trim(),
+                              context);
                           setState(() {
                             isloading = false;
                           });
@@ -279,7 +287,6 @@ class SignupPageState extends State<SignupPage> {
                         SocalCard(
                           icon: "assets/icons/google-icon.svg",
                           press: () async {
-
                             setState(() {
                               isloading = true;
                             });
@@ -307,54 +314,5 @@ class SignupPageState extends State<SignupPage> {
         ],
       ),
     );
-  }
-
-  String removeSpecialCharacters(String text) {
-    return text.replaceAll("@", "").replaceAll(".", "");
-  }
-
-  Future<void> firebaseSignin() async {
-    final uuid = const Uuid().v4();
-    // print("Before signup checkpoint");
-
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailcontroller.text.trim(),
-          password: passwordcontroller.text.trim());
-      // print("after signup checkpoint");
-
-      await FirebaseDatabase.instance
-          .ref()
-          .child("Users")
-          .child("Email Sign in")
-          .child(removeSpecialCharacters(emailcontroller.text))
-          .set({
-        "unique id": uuid,
-        "Username": nameController.text.trim(),
-        "Phone Number": phoneNumberController.text.trim(),
-        "Email Id": emailcontroller.text.trim(),
-        "Password": passwordcontroller.text.trim(),
-        "type": "Email Sign in"
-      });
-
-      print("after database checkpoint");
-
-      Get.to(() => const CheckUserData());
-      print("after route checkpoint");
-    } catch (error) {
-      // print(error.toString());
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        dismissDirection: DismissDirection.down,
-        content: AwesomeSnackbarContent(
-          title: 'Something Went wrong!',
-          message: error.toString(),
-          contentType: ContentType.warning,
-        ),
-      ));
-    }
   }
 }

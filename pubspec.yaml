@@ -61,6 +61,8 @@ dependencies:
   lottie: ^1.4.2
   #awesome_snackbar_content
   awesome_snackbar_content: ^0.0.8
+  #http
+  http: ^0.13.5
 
 
 

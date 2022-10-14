@@ -19,6 +19,7 @@ class _StoreState extends State<Store> {
   int currenttab = 0;
   int currenttab2 = -1;
   bool istabopen = false;
+  StoreDataController dataController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -213,44 +214,48 @@ class _StoreState extends State<Store> {
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: newinStoreData.length,
+              itemCount: dataController.updatedProducts.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
                     Get.to(() => ProductPage(
-                        currentindex: index,
-                        imageurl: newinStoreData[index].imageUrl,
-                        productname: newinStoreData[index].itemName,
-                        price: newinStoreData[index].price));
+                      product: dataController.updatedProducts[index],));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Column(
                           children: [
                             Hero(
-                              tag: newinStoreData[index].imageUrl,
+                              tag: dataController.updatedProducts[index].id,
                               child: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.23,
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 child: CachedNetworkImage(
-                                  imageUrl: newinStoreData[index].imageUrl,
+                                  imageUrl: dataController.updatedProducts[index].image,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             Row(
                               children: [
-                                Text(newinStoreData[index].itemName),
+                                SizedBox(
+                                  width:MediaQuery.of(context).size.width*0.25,
+                                  child: FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: Text(
+                                        dataController.updatedProducts[index].title),
+                                  ),
+                                ),
                                 const Spacer(),
                                 Text(
-                                  "₹${newinStoreData[index].price.toString()}",
+                                  "₹${dataController.updatedProducts[index].price.toString()}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 )

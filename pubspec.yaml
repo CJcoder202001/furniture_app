@@ -50,6 +50,9 @@ dependencies:
   cloud_firestore: ^3.4.8
   firebase_auth: ^3.9.0
   firebase_database: ^9.1.5
+
+  #shimmer
+  shimmer: ^2.0.0
    
   #Unique_id
   uuid: ^3.0.6

@@ -97,17 +97,16 @@ class _ProductPageState extends State<ProductPage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
-
                   child: Hero(
-                    tag: widget.product.id,
-                    child: CachedNetworkImage(
-                      imageUrl: widget.product.image,
-                      fit: BoxFit.contain,
-                    ),
-                  )),
+                tag: widget.product.id,
+                child: CachedNetworkImage(
+                  imageUrl: widget.product.image,
+                  fit: BoxFit.contain,
+                ),
+              )),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height*0.01,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             Container(
               decoration: BoxDecoration(
@@ -159,24 +158,21 @@ class _ProductPageState extends State<ProductPage> {
                               Obx(
                                 (() => InkWell(
                                       onTap: () {
-
-
-                                        // int index = dataController
-                                        //     .favoriteProducts
-                                        //     .indexWhere((element) =>
-                                        //         element.itemName ==
-                                        //             widget.product
-                                        //             .title);
-                                        // index == -1
-                                        //     ? {
-                                        //         dataController
-                                        //             .addProducttoFavorite(
-                                        //             widget.product)
-                                        //       }
-                                        //     : {
-                                        //         dataController
-                                        //             .removefromFavorite(index)
-                                        //       };
+                                        int index = dataController
+                                            .favoriteProducts
+                                            .indexWhere((element) =>
+                                                element.id ==
+                                                widget.product.id);
+                                        index == -1
+                                            ? {
+                                                dataController
+                                                    .addProducttoFavorite(
+                                                        widget.product)
+                                              }
+                                            : {
+                                                dataController
+                                                    .removefromFavorite(index)
+                                              };
                                       },
                                       child: Icon(
                                         dataController.favoriteProducts
@@ -341,7 +337,7 @@ class _ProductPageState extends State<ProductPage> {
                       decoration: BoxDecoration(
                           color: color2,
                           borderRadius: BorderRadius.circular(10)),
-                      child:  Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           widget.product.description,

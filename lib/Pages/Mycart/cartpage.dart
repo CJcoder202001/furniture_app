@@ -21,8 +21,8 @@ class _CartPageState extends State<CartPage> {
     totalPriceOfItems();
   }
 
-  int totalPriceOfItems() {
-    int total = 0;
+  double totalPriceOfItems() {
+    double total = 0;
     for (int i = 0; i < dataController.favoriteProducts.length; i++) {
       setState(() {
         total = total + dataController.favoriteProducts[i].price;
@@ -31,15 +31,14 @@ class _CartPageState extends State<CartPage> {
     return total;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.03),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.03),
           child: GestureDetector(
             onTap: () => Get.back(),
             child: const Icon(
@@ -48,7 +47,7 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
         ),
-        leadingWidth: MediaQuery.of(context).size.width*0.05,
+        leadingWidth: MediaQuery.of(context).size.width * 0.05,
         title: Image.asset(biglogo,
             scale: MediaQuery.of(context).size.width * 0.01),
         backgroundColor: Colors.white,
@@ -85,18 +84,25 @@ class _CartPageState extends State<CartPage> {
                       horizontal: MediaQuery.of(context).size.width * 0.02,
                     ),
                     child: Container(
-
-                      decoration: BoxDecoration( color: Colors.grey,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width * 0.02,
-                            vertical: MediaQuery.of(context).size.height * 0.01),
-
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02,
+                            vertical:
+                                MediaQuery.of(context).size.height * 0.01),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Total",style: TextStyle(fontSize: MediaQuery.of(context).size.width*0.04,fontWeight: FontWeight.bold),),
+                            Text(
+                              "Total",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             Text(totalPriceOfItems().toString())
                           ],
                         ),
@@ -119,7 +125,7 @@ class _CartPageState extends State<CartPage> {
                           "Checkout",
                           style: TextStyle(
                               fontSize:
-                              MediaQuery.of(context).size.width * 0.06),
+                                  MediaQuery.of(context).size.width * 0.06),
                         )),
                   ),
                 ],
@@ -140,83 +146,82 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               Obx(() => ListView.builder(
-                shrinkWrap: true,
-                itemCount: dataController.favoriteProducts.length,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal:
-                        MediaQuery.of(context).size.width * 0.03,
-                        vertical:
-                        MediaQuery.of(context).size.height * 0.006),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Obx(
+                    shrinkWrap: true,
+                    itemCount: dataController.favoriteProducts.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.03,
+                            vertical:
+                                MediaQuery.of(context).size.height * 0.006),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Obx(
                             () => ListTile(
-                            leading: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: CachedNetworkImage(
-                                imageUrl: dataController
-                                    .favoriteProducts[index].imageUrl,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            title: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  dataController
-                                      .favoriteProducts[index].itemName,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                leading: SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: CachedNetworkImage(
+                                    imageUrl: dataController
+                                        .favoriteProducts[index].image,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                Text(dataController
-                                    .favoriteProducts[index].price
-                                    .toString()),
-                              ],
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  int itemindex = dataController
-                                      .favoriteProducts
-                                      .indexWhere((element) =>
-                                  element.itemName ==
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
                                       dataController
-                                          .favoriteProducts[index]
-                                          .itemName);
-                                  itemindex == -1
-                                      ? {
-                                    dataController
-                                        .addProducttoFavorite(
-                                        dataController
-                                            .favoriteProducts[
-                                        index])
-                                  }
-                                      : {
-                                    dataController
-                                        .removefromFavorite(itemindex)
-                                  };
-                                },
-                                icon: dataController.favoriteProducts
-                                    .contains(dataController
-                                    .favoriteProducts[index])
-                                    ? const Icon(
-                                  Icons.favorite,
-                                  color: Colors.orange,
-                                )
-                                    : const Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.orange,
-                                ))),
-                      ),
-                    ),
-                  );
-                },
-              )),
+                                          .favoriteProducts[index].title,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(dataController
+                                        .favoriteProducts[index].price
+                                        .toString()),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      int itemindex = dataController
+                                          .favoriteProducts
+                                          .indexWhere((element) =>
+                                              element.id ==
+                                              dataController
+                                                  .favoriteProducts[index].id);
+                                      itemindex == -1
+                                          ? {
+                                              dataController
+                                                  .addProducttoFavorite(
+                                                      dataController
+                                                              .favoriteProducts[
+                                                          index])
+                                            }
+                                          : {
+                                              dataController
+                                                  .removefromFavorite(itemindex)
+                                            };
+                                    },
+                                    icon: dataController.favoriteProducts
+                                            .contains(dataController
+                                                .favoriteProducts[index])
+                                        ? const Icon(
+                                            Icons.favorite,
+                                            color: Colors.orange,
+                                          )
+                                        : const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.orange,
+                                          ))),
+                          ),
+                        ),
+                      );
+                    },
+                  )),
             ],
           ),
         ],

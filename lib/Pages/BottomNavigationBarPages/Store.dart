@@ -38,7 +38,7 @@ class _StoreState extends State<Store> {
           ),
         ),
         title: Text(
-          recommendcategory[currenttab],
+          dataController.categories[currenttab],
           style: TextStyle(
               color: Colors.black,
               fontSize: MediaQuery.of(context).size.width * 0.04,
@@ -74,45 +74,45 @@ class _StoreState extends State<Store> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: recommendcategory.length,
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(8),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        currenttab = index;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(microseconds: 300),
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                              MediaQuery.of(context).size.width * 0.027),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: currenttab == index ? Colors.orange : color2,
-                      ),
-                      child: Center(
-                        child: Text(
-                          recommendcategory[index],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: currenttab == index ? color1 : color6,
+            child: Obx(() => SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: dataController.categories.length,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.all(8),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            currenttab = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(microseconds: 300),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.027),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: currenttab == index ? Colors.orange : color2,
+                          ),
+                          child: Center(
+                            child: Text(
+                              dataController.categories[index],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: currenttab == index ? color1 : color6,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  ),
+                )),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -210,65 +210,81 @@ class _StoreState extends State<Store> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.28,
+            height: MediaQuery.of(context).size.height * 0.315,
             width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: dataController.updatedProducts.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(() => ProductPage(
-                      product: dataController.updatedProducts[index],));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Column(
-                          children: [
-                            Hero(
-                              tag: dataController.updatedProducts[index].id,
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.23,
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                child: CachedNetworkImage(
-                                  imageUrl: dataController.updatedProducts[index].image,
-                                  fit: BoxFit.cover,
+            child: Obx(() => ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dataController.updatedProducts.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    Widget widget = dataController.categories[currenttab] !=
+                            dataController.updatedProducts[index].category
+                        ? Container()
+                        : GestureDetector(
+                            onTap: () {
+                              Get.to(() => ProductPage(
+                                    product:
+                                        dataController.updatedProducts[index],
+                                  ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: Column(
+                                    children: [
+                                      Hero(
+                                        tag: dataController
+                                            .updatedProducts[index].id,
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.23,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: CachedNetworkImage(
+                                            imageUrl: dataController
+                                                .updatedProducts[index].image,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              dataController
+                                                  .updatedProducts[index].title,
+                                              overflow: TextOverflow.fade,
+                                              maxLines: 3,
+                                            ),
+                                          ),
+                                          Text(
+                                            "₹${dataController.updatedProducts[index].price.toString()}",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width:MediaQuery.of(context).size.width*0.25,
-                                  child: FittedBox(
-                                    fit: BoxFit.cover,
-                                    child: Text(
-                                        dataController.updatedProducts[index].title),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  "₹${dataController.updatedProducts[index].price.toString()}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                          );
+                    return widget;
+                  },
+                )),
           ),
         ],
       ),

@@ -1,17 +1,20 @@
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:furniture_app/models/product_category.dart';
 import 'package:furniture_app/models/product_data.dart';
-import 'package:furniture_app/models/product_data_model.dart';
+
 import 'package:furniture_app/models/product_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class StoreDataController extends GetxController {
-  RxList<ProductModel> favoriteProducts = <ProductModel>[].obs;
+  RxList<Productdata> favoriteProducts = <Productdata>[].obs;
   RxList updatedProducts = [].obs;
+  RxList categories = [].obs;
+  List _categories = [].obs;
   List productsdata = [].obs;
+  RxBool isloading = false.obs;
 
   Future restapidata() async {
     var request = http.Request(
@@ -23,6 +26,7 @@ class StoreDataController extends GetxController {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
+      isloading = true.obs;
       var body = await response.stream.bytesToString();
 
       ProductDataListResponse productDataListResponse =
@@ -32,12 +36,14 @@ class StoreDataController extends GetxController {
       productsdata.forEach((element) {
         updatedProducts.add(element);
       });
+
+      isloading = false.obs;
     } else {
       print(response.reasonPhrase);
     }
   }
 
-  addProducttoFavorite(ProductModel Product) {
+  addProducttoFavorite(Productdata Product) {
     favoriteProducts.add(Product);
   }
 
@@ -45,11 +51,31 @@ class StoreDataController extends GetxController {
     favoriteProducts.removeAt(index);
   }
 
+  Future getCategorieslist() async {
+    var request = http.Request(
+        'GET',
+        Uri.parse(
+            'https://07b7753f-309a-40b6-a52b-d3b1e0fb934b.mock.pstmn.io/categories'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var body = await response.stream.bytesToString();
+      _categories = categoriesFromJson(body);
+      _categories.forEach((element) {
+        categories.add(element);
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     restapidata();
+    getCategorieslist();
     print(productsdata);
   }
 }

@@ -21,8 +21,8 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
     totalPriceOfItems();
   }
 
-  int totalPriceOfItems() {
-    int total = 0;
+  double totalPriceOfItems() {
+    double total = 0;
     for (int i = 0; i < dataController.favoriteProducts.length; i++) {
       setState(() {
         total = total + dataController.favoriteProducts[i].price;
@@ -167,7 +167,7 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                                   width: 100,
                                   child: CachedNetworkImage(
                                     imageUrl: dataController
-                                        .favoriteProducts[index].imageUrl,
+                                        .favoriteProducts[index].image,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -176,7 +176,7 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                                   children: [
                                     Text(
                                       dataController
-                                          .favoriteProducts[index].itemName,
+                                          .favoriteProducts[index].title,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -190,10 +190,9 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                                       int itemindex = dataController
                                           .favoriteProducts
                                           .indexWhere((element) =>
-                                              element.itemName ==
+                                              element.id ==
                                               dataController
-                                                  .favoriteProducts[index]
-                                                  .itemName);
+                                                  .favoriteProducts[index].id);
                                       itemindex == -1
                                           ? {
                                               dataController

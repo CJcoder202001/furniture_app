@@ -13,6 +13,7 @@ import 'package:furniture_app/Pages/product_page.dart';
 import 'package:furniture_app/naviigation_drawer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -113,29 +114,31 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: recommendcategory.length,
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(8),
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Text(
-                        recommendcategory[index],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.07),
-                    ],
-                  );
-                },
-              ),
-            ),
+                width: double.infinity,
+                height: 40,
+                child: Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: dataController.categories.length,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.all(8),
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          Text(
+                            dataController.categories[index],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.07),
+                        ],
+                      );
+                    },
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ClipRRect(
@@ -275,75 +278,24 @@ class _HomeState extends State<Home> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://www.seekpng.com/png/full/361-3611585_sofa-icon-orange-sofa-icon-png.png",
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.033,
-                                      color: Colors.orange,
-                                    ),
-                                    Text(
-                                      "Sofas",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://cdn-icons-png.flaticon.com/512/1189/1189439.png",
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.04,
-                                      color: Colors.orange,
-                                    ),
-                                    Text(
-                                      "Tv units",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://www.pngkey.com/png/full/215-2156360_hotel-icon-orange-hotel-icon-png.png",
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.032,
-                                      color: Colors.orange,
-                                    ),
-                                    Text(
-                                      "Beds",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              boxIcons(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.033,
+                                  title: "Sofas",
+                                  imageUrl:
+                                      "https://www.seekpng.com/png/full/361-3611585_sofa-icon-orange-sofa-icon-png.png"),
+                              boxIcons(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  title: "Tv units",
+                                  imageUrl:
+                                      "https://cdn-icons-png.flaticon.com/512/1189/1189439.png"),
+                              boxIcons(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.032,
+                                  title: "Beds",
+                                  imageUrl:
+                                      "https://www.pngkey.com/png/full/215-2156360_hotel-icon-orange-hotel-icon-png.png")
                             ],
                           ),
                         ),
@@ -352,75 +304,24 @@ class _HomeState extends State<Home> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://cdn0.iconfinder.com/data/icons/laundry-50/64/Artboard_5-512.png",
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.04,
-                                      color: Colors.orange,
-                                    ),
-                                    Text(
-                                      "Cupboard",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://cdn-icons-png.flaticon.com/512/1175/1175506.png",
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.04,
-                                      color: Colors.orange,
-                                    ),
-                                    Text(
-                                      "Decor",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://cdn-icons-png.flaticon.com/512/2610/2610928.png",
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.04,
-                                      color: Colors.orange,
-                                    ),
-                                    Text(
-                                      "Drawer",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              boxIcons(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  title: "Cupboard",
+                                  imageUrl:
+                                      "https://cdn0.iconfinder.com/data/icons/laundry-50/64/Artboard_5-512.png"),
+                              boxIcons(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  title: "Decor",
+                                  imageUrl:
+                                      "https://cdn-icons-png.flaticon.com/512/1175/1175506.png"),
+                              boxIcons(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  title: "Drawer",
+                                  imageUrl:
+                                      "https://cdn-icons-png.flaticon.com/512/2610/2610928.png"),
                             ],
                           ),
                         )
@@ -451,70 +352,183 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.27,
+              height: MediaQuery.of(context).size.height * 0.315,
               width: MediaQuery.of(context).size.width,
               child: Obx(() => ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: dataController.updatedProducts.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(() => ProductPage(
-                           product: dataController.updatedProducts[index],));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.28,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          child: Column(
-                            children: [
-                              Hero(
-                                tag: dataController.updatedProducts[index].id,
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.23,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                  child: CachedNetworkImage(
-                                    imageUrl: dataController
-                                        .updatedProducts[index].image,
-                                    fit: BoxFit.cover,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: dataController.updatedProducts.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      Widget widget = dataController.isloading.isTrue
+                          ? const shimmereffect()
+                          : GestureDetector(
+                              onTap: () {
+                                Get.to(() => ProductPage(
+                                      product:
+                                          dataController.updatedProducts[index],
+                                    ));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    child: Column(
+                                      children: [
+                                        Hero(
+                                          tag: dataController
+                                              .updatedProducts[index].id,
+                                          child: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.23,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            child: CachedNetworkImage(
+                                              imageUrl: dataController
+                                                  .updatedProducts[index].image,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                dataController
+                                                    .updatedProducts[index]
+                                                    .title,
+                                                overflow: TextOverflow.fade,
+                                                maxLines: 3,
+                                              ),
+                                            ),
+                                            Text(
+                                              "₹${dataController.updatedProducts[index].price.toString()}",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width:MediaQuery.of(context).size.width*0.25,
-                                    child: FittedBox(
-                                      fit: BoxFit.cover,
-                                      child: Text(
-                                          dataController.updatedProducts[index].title),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "₹${dataController.updatedProducts[index].price.toString()}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              )),
+                            );
+
+                      return widget;
+                    },
+                  )),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class boxIcons extends StatelessWidget {
+  final double height;
+  final String title;
+  final String imageUrl;
+  const boxIcons(
+      {super.key,
+      required this.height,
+      required this.title,
+      required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            height: height,
+            color: Colors.orange,
+          ),
+          Text(
+            title,
+            style:
+                TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+Widget skeleton(BuildContext context, double height, double width) {
+  return Container(
+    height: height,
+    width: width,
+    decoration: BoxDecoration(
+        color: Colors.grey, borderRadius: BorderRadius.circular(15)),
+  );
+}
+
+class shimmereffect extends StatelessWidget {
+  const shimmereffect({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Color.fromARGB(255, 192, 192, 192),
+      highlightColor: Color.fromARGB(255, 211, 211, 211),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              skeleton(context, MediaQuery.of(context).size.height * 0.23,
+                  MediaQuery.of(context).size.width * 0.4),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      skeleton(
+                          context,
+                          MediaQuery.of(context).size.height * 0.02,
+                          MediaQuery.of(context).size.width * 0.25),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      skeleton(
+                          context,
+                          MediaQuery.of(context).size.height * 0.02,
+                          MediaQuery.of(context).size.width * 0.2),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      skeleton(
+                          context,
+                          MediaQuery.of(context).size.height * 0.02,
+                          MediaQuery.of(context).size.width * 0.2),
+                    ],
+                  ),
+                  skeleton(context, MediaQuery.of(context).size.height * 0.025,
+                      MediaQuery.of(context).size.width * 0.1),
+                ],
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

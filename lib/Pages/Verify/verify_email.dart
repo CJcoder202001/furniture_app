@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Pages/Homepage.dart';
 import 'package:furniture_app/Pages/check_user_data.dart';
 import 'package:get/get.dart';
 
@@ -88,8 +89,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
             currentIndicator == doneIndicator
                 ? ElevatedButton.icon(
                     onPressed: () {
-                      print("working");
-                      Get.to(() => const CheckUserData());
+                      Get.to(() => const Homepage());
                     },
                     icon: const Icon(Icons.home),
                     label: Text("Go to homepage"))

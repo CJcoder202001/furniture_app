@@ -42,12 +42,11 @@ class _Login_screenState extends State<Login_screen> {
     final FormState form = _formKey.currentState!;
     if (form.validate()) {
       try {
-
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailcontroller.text.trim(),
             password: Passwordcontroller.text.trim());
 
-        Get.to(()=>const CheckUserData());
+        Get.to(() => const CheckUserData());
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           elevation: 0,
@@ -78,11 +77,6 @@ class _Login_screenState extends State<Login_screen> {
       ),
       body: Stack(
         children: [
-          isloading
-              ? const CircularProgressIndicator.adaptive(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                )
-              : Container(),
           ListView(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -122,6 +116,7 @@ class _Login_screenState extends State<Login_screen> {
                           controller: emailcontroller,
                           decoration:
                               const InputDecoration(border: InputBorder.none),
+                          autofillHints: [AutofillHints.email],
                           onFieldSubmitted: (value) {
                             FocusScope.of(context).requestFocus(passwordfocus);
                             setState(() {
@@ -129,9 +124,9 @@ class _Login_screenState extends State<Login_screen> {
                             });
                           },
                           validator: (value) {
-                            value?.length == 0
+                            emailcontroller.text.length == 0
                                 ? "Uh Oh! You forget to fill this"
-                                : EmailValidator.validate(value)
+                                : EmailValidator.validate(emailcontroller.text)
                                     ? null
                                     : "Please fill a valid email address";
                           },
@@ -290,6 +285,13 @@ class _Login_screenState extends State<Login_screen> {
               )
             ],
           ),
+          isloading
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

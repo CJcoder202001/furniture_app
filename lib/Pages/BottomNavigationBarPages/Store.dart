@@ -6,6 +6,7 @@ import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
 import 'package:furniture_app/Pages/Homepage.dart';
 import 'package:furniture_app/Pages/product_page.dart';
+import 'package:furniture_app/custom_shapes/shimmereffect.dart';
 import 'package:get/get.dart';
 
 class Store extends StatefulWidget {
@@ -84,32 +85,39 @@ class _StoreState extends State<Store> {
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.all(8),
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            currenttab = index;
-                          });
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(microseconds: 300),
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.027),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: currenttab == index ? Colors.orange : color2,
-                          ),
-                          child: Center(
-                            child: Text(
-                              dataController.categories[index],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: currenttab == index ? color1 : color6,
+                      Widget widget = dataController.categories.isEmpty
+                          ? Container()
+                          : InkWell(
+                              onTap: () {
+                                setState(() {
+                                  currenttab = index;
+                                });
+                              },
+                              child: AnimatedContainer(
+                                duration: const Duration(microseconds: 300),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.027),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: currenttab == index
+                                      ? Colors.orange
+                                      : color2,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    dataController.categories[index],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          currenttab == index ? color1 : color6,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      );
+                            );
+                      return widget;
                     },
                   ),
                 )),
@@ -118,85 +126,95 @@ class _StoreState extends State<Store> {
             padding: const EdgeInsets.all(10.0),
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: Newcategory.length,
+              itemCount: dataController.categories.length,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: (() {
-                    setState(() {
-                      if (currenttab2 == index) {
-                        currenttab2 = -1;
-                      } else {
-                        currenttab2 = index;
-                      }
-                    });
-                  }),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 5.0,
-                                  offset: Offset(2, 2),
+                Widget widget = dataController.categories.isEmpty
+                    ? Container()
+                    : GestureDetector(
+                        onTap: (() {
+                          setState(() {
+                            if (currenttab2 == index) {
+                              currenttab2 = -1;
+                            } else {
+                              currenttab2 = index;
+                            }
+                          });
+                        }),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 5.0,
+                                        offset: Offset(2, 2),
+                                      ),
+                                    ]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(dataController.categories[index]),
+                                      currenttab2 == index
+                                          ? const Icon(Icons.arrow_upward)
+                                          : const Icon(Icons.arrow_downward),
+                                    ],
+                                  ),
                                 ),
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(Newcategory[index].categoryName),
-                                currenttab2 == index
-                                    ? const Icon(Icons.arrow_upward)
-                                    : const Icon(Icons.arrow_downward),
-                              ],
-                            ),
+                              ),
+                              ...(dataController.categories).map(
+                                (data) => currenttab2 == index
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.06,
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromARGB(
+                                                    255, 80, 110, 126)
+                                                .withOpacity(0.8),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  data,
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              )
+                            ],
                           ),
                         ),
-                        ...(Newcategory[index].subcategory as List<String>).map(
-                          (data) => currenttab2 == index
-                              ? Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                              255, 80, 110, 126)
-                                          .withOpacity(0.8),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            data,
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Container(),
-                        )
-                      ],
-                    ),
-                  ),
-                );
+                      );
+                return widget;
               },
             ),
           ),
@@ -216,72 +234,78 @@ class _StoreState extends State<Store> {
                   scrollDirection: Axis.horizontal,
                   itemCount: dataController.updatedProducts.length,
                   shrinkWrap: true,
+                  cacheExtent: 6,
                   itemBuilder: (context, index) {
-                    Widget widget = dataController.categories[currenttab] !=
-                            dataController.updatedProducts[index].category
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              Get.to(() => ProductPage(
-                                    product:
-                                        dataController.updatedProducts[index],
-                                  ));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                  child: Column(
-                                    children: [
-                                      Hero(
-                                        tag: dataController
-                                            .updatedProducts[index].id,
-                                        child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.23,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.4,
-                                          child: CachedNetworkImage(
-                                            imageUrl: dataController
-                                                .updatedProducts[index].image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                    Widget widget = dataController.isloading.isTrue
+                        ? const shimmereffect()
+                        : dataController.categories[currenttab] !=
+                                dataController.updatedProducts[index].category
+                            ? Container()
+                            : GestureDetector(
+                                onTap: () {
+                                  Get.to(() => ProductPage(
+                                        product: dataController
+                                            .updatedProducts[index],
+                                      ));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      child: Column(
                                         children: [
-                                          Expanded(
-                                            child: Text(
-                                              dataController
-                                                  .updatedProducts[index].title,
-                                              overflow: TextOverflow.fade,
-                                              maxLines: 3,
+                                          Hero(
+                                            tag: dataController
+                                                .updatedProducts[index].id,
+                                            child: SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.23,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.4,
+                                              child: CachedNetworkImage(
+                                                imageUrl: dataController
+                                                    .updatedProducts[index]
+                                                    .image,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                          Text(
-                                            "₹${dataController.updatedProducts[index].price.toString()}",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  dataController
+                                                      .updatedProducts[index]
+                                                      .title,
+                                                  overflow: TextOverflow.fade,
+                                                  maxLines: 3,
+                                                ),
+                                              ),
+                                              Text(
+                                                "₹${dataController.updatedProducts[index].price.toString()}",
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
                                           )
                                         ],
-                                      )
-                                    ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
+                              );
                     return widget;
                   },
                 )),

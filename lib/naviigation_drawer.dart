@@ -10,6 +10,8 @@ import 'package:furniture_app/Pages/people.dart';
 import 'package:furniture_app/drawer_item.dart';
 import 'package:get/get.dart';
 
+import 'Pages/check_User_Data.dart';
+
 class NavigationDrawer extends StatefulWidget {
   NavigationDrawer({Key? key}) : super(key: key);
 
@@ -92,7 +94,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               DrawerItem(
                   name: 'Log out',
                   icon: Icons.logout,
-                  onPressed: () async => await FirebaseAuth.instance.signOut()),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Get.to(() => const CheckUserData());
+                  }),
               const Spacer(),
               Column(
                 children: [
@@ -146,7 +151,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           backgroundImage: NavigationDrawer._user.photoURL == null
               ? const AssetImage("assets/images/Profile Image.png")
               : CachedNetworkImageProvider(NavigationDrawer._user.photoURL!)
-          as ImageProvider,
+                  as ImageProvider,
         ),
         const SizedBox(
           width: 20,

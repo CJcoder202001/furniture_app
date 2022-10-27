@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:furniture_app/Pages/account_details_view.dart';
+import 'package:furniture_app/Pages/check_user_data.dart';
+import 'package:get/get.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';
@@ -18,7 +21,7 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
-            press: () => {},
+            press: () => {Get.to(() => AccountDetails())},
           ),
           ProfileMenu(
             text: "Notifications",
@@ -40,6 +43,7 @@ class Body extends StatelessWidget {
             icon: "assets/icons/Log out.svg",
             press: () async {
               await FirebaseAuth.instance.signOut();
+              Get.to(() => const CheckUserData());
             },
           ),
         ],

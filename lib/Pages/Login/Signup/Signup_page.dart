@@ -57,13 +57,6 @@ class SignupPageState extends State<SignupPage> {
       ),
       body: Stack(
         children: [
-          isloading
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.orange,
-                  ),
-                )
-              : Container(),
           ListView(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -311,6 +304,13 @@ class SignupPageState extends State<SignupPage> {
               )
             ],
           ),
+          isloading
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.orange,
+                  ),
+                )
+              : Container(),
         ],
       ),
     );

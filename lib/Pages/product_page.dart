@@ -128,13 +128,13 @@ class _ProductPageState extends State<ProductPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "₹${widget.product.price.toString()}",
+                                "₹${widget.product.price}",
                                 style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).size.width * 0.1,
                                     fontWeight: FontWeight.bold),
                               ),
-                              const Text("Emi from ₹3598"),
+                              Text("Emi from ${widget.product.price / 4}"),
                             ],
                           ),
                           Column(

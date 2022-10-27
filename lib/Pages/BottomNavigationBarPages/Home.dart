@@ -10,6 +10,8 @@ import 'package:furniture_app/Pages/Mycart/cartpage.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 
 import 'package:furniture_app/Pages/product_page.dart';
+import 'package:furniture_app/custom_shapes/box_icons.dart';
+import 'package:furniture_app/custom_shapes/shimmereffect.dart';
 import 'package:furniture_app/naviigation_drawer.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -358,6 +360,7 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.horizontal,
                     itemCount: dataController.updatedProducts.length,
                     shrinkWrap: true,
+                    cacheExtent: 10,
                     itemBuilder: (context, index) {
                       Widget widget = dataController.isloading.isTrue
                           ? const shimmereffect()
@@ -431,104 +434,6 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class boxIcons extends StatelessWidget {
-  final double height;
-  final String title;
-  final String imageUrl;
-  const boxIcons(
-      {super.key,
-      required this.height,
-      required this.title,
-      required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          CachedNetworkImage(
-            imageUrl: imageUrl,
-            height: height,
-            color: Colors.orange,
-          ),
-          Text(
-            title,
-            style:
-                TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-Widget skeleton(BuildContext context, double height, double width) {
-  return Container(
-    height: height,
-    width: width,
-    decoration: BoxDecoration(
-        color: Colors.grey, borderRadius: BorderRadius.circular(15)),
-  );
-}
-
-class shimmereffect extends StatelessWidget {
-  const shimmereffect({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Color.fromARGB(255, 192, 192, 192),
-      highlightColor: Color.fromARGB(255, 211, 211, 211),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              skeleton(context, MediaQuery.of(context).size.height * 0.23,
-                  MediaQuery.of(context).size.width * 0.4),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      skeleton(
-                          context,
-                          MediaQuery.of(context).size.height * 0.02,
-                          MediaQuery.of(context).size.width * 0.25),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
-                      ),
-                      skeleton(
-                          context,
-                          MediaQuery.of(context).size.height * 0.02,
-                          MediaQuery.of(context).size.width * 0.2),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
-                      ),
-                      skeleton(
-                          context,
-                          MediaQuery.of(context).size.height * 0.02,
-                          MediaQuery.of(context).size.width * 0.2),
-                    ],
-                  ),
-                  skeleton(context, MediaQuery.of(context).size.height * 0.025,
-                      MediaQuery.of(context).size.width * 0.1),
-                ],
-              )
-            ],
-          ),
-        ],
       ),
     );
   }

@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'Pages/check_User_Data.dart';
 
 class NavigationDrawer extends StatefulWidget {
-  NavigationDrawer({Key? key}) : super(key: key);
+  const NavigationDrawer({Key? key}) : super(key: key);
 
   static final User _user = FirebaseAuth.instance.currentUser!;
 

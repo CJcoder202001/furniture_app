@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:furniture_app/Custom_presets/Main_naming.dart';
 
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
-import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
+
+import 'package:furniture_app/custom_shapes/customappbar.dart';
 import 'package:furniture_app/models/product_data.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,47 +41,7 @@ class _ProductPageState extends State<ProductPage> {
         padding: const EdgeInsets.all(15.0),
         child: ListView(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: MediaQuery.of(context).size.width * 0.07,
-                      ),
-                    ),
-                    Image.asset(biglogo,
-                        scale: MediaQuery.of(context).size.width * 0.01),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: MediaQuery.of(context).size.width * 0.07,
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    GestureDetector(
-                      onTap: () => Get.to(() => const FavoriteProductPage()),
-                      child: Icon(
-                        Icons.favorite_border,
-                        size: MediaQuery.of(context).size.width * 0.07,
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-                    Icon(
-                      Icons.shopping_cart_outlined,
-                      size: MediaQuery.of(context).size.width * 0.07,
-                    ),
-                  ],
-                )
-              ],
-            ),
+            const CustomAppbar(),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.01,
             ),

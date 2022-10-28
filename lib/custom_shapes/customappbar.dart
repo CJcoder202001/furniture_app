@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
+import 'package:furniture_app/Pages/Mycart/cartpage.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 import 'package:get/get.dart';
 
@@ -41,9 +42,12 @@ class CustomAppbar extends StatelessWidget {
               ),
             ),
             SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-            Icon(
-              Icons.shopping_cart_outlined,
-              size: MediaQuery.of(context).size.width * 0.07,
+            GestureDetector(
+              onTap: () => const CartPage(),
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                size: MediaQuery.of(context).size.width * 0.07,
+              ),
             ),
           ],
         )

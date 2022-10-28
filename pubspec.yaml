@@ -50,6 +50,8 @@ dependencies:
   cloud_firestore: ^3.4.8
   firebase_auth: ^3.9.0
   firebase_database: ^9.1.5
+  #FACEBOOK
+  flutter_facebook_auth: ^4.4.1+1
 
   #shimmer
   shimmer: ^2.0.0

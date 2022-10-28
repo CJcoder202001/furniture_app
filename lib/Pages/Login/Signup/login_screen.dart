@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
+import 'package:furniture_app/Functions/facebooklogin.dart';
 import 'package:furniture_app/Functions/firebase.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/Login/Signup/Signup_page.dart';
@@ -28,6 +29,7 @@ class _Login_screenState extends State<Login_screen> {
 
   GoogleSignInController googleController = Get.put(GoogleSignInController());
   FirebaseController firebaseController = Get.put(FirebaseController());
+  Facebookcontroller facebookcontroller = Get.put(Facebookcontroller());
   bool isloading = false;
 
   @override
@@ -271,7 +273,29 @@ class _Login_screenState extends State<Login_screen> {
                           ),
                           SocalCard(
                             icon: "assets/icons/facebook-2.svg",
-                            press: () {},
+                            press: () async {
+                              setState(() {
+                                isloading = true;
+                              });
+                              try {
+                                await facebookcontroller.facebookLogin(context);
+                              } catch (e) {
+                                return ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  elevation: 0,
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  content: AwesomeSnackbarContent(
+                                    title: "Uh oh!! Something went wrong",
+                                    message: e.toString(),
+                                    contentType: ContentType.failure,
+                                  ),
+                                ));
+                              }
+                              setState(() {
+                                isloading = false;
+                              });
+                            },
                           ),
                           SocalCard(
                             icon: "assets/icons/twitter.svg",

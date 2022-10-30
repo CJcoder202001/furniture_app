@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Pages/Homepage.dart';
-import 'package:furniture_app/Pages/check_user_data.dart';
 import 'package:get/get.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -17,6 +16,7 @@ class VerifyEmail extends StatefulWidget {
 class _VerifyEmailState extends State<VerifyEmail> {
   //Timer for checking the verification
   Timer? _timer;
+  bool canResendEmail = true;
   static String loadingIndicator = "assets/images/loading .gif";
   static String doneIndicator = "assets/images/Done .gif";
   static final User user = FirebaseAuth.instance.currentUser!;
@@ -25,36 +25,40 @@ class _VerifyEmailState extends State<VerifyEmail> {
   @override
   void initState() {
     super.initState();
-    print("at initstate before verify email process");
     verifyEmailProcess();
-    print("at initstate after verify email process");
   }
 
   void verifyEmailProcess() async {
-    print("inside verify email function");
-    await sendVerifyEmail;
-    print("inside verify email function after sendverifyemail");
+    await sendVerifyEmail();
     _timer = Timer.periodic(
         const Duration(seconds: 3), (timer) => isemailverified());
-    print("inside verify email function after timer");
   }
 
   isemailverified() {
-    print("inside email verified");
     FirebaseAuth.instance.currentUser!.emailVerified
         ? setState(() {
-            print("1");
             currentIndicator = doneIndicator;
+            canResendEmail = false;
 
             _timer?.cancel();
           })
         : FirebaseAuth.instance.currentUser!.reload();
   }
 
-  Future<void> get sendVerifyEmail async {
-    print("before sending email");
+  Future<void> sendVerifyEmail() async {
     await FirebaseAuth.instance.currentUser!.sendEmailVerification();
-    print("sending email");
+    resendemailprocess();
+  }
+
+  resendemailprocess() async {
+    print("working");
+    setState(() {
+      canResendEmail = false;
+    });
+    await Future.delayed(const Duration(seconds: 30));
+    setState(() {
+      canResendEmail = true;
+    });
   }
 
   @override
@@ -77,6 +81,14 @@ class _VerifyEmailState extends State<VerifyEmail> {
               style:
                   TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
             ),
+            canResendEmail
+                ? ElevatedButton.icon(
+                    onPressed: () async {
+                      await sendVerifyEmail();
+                    },
+                    icon: const Icon(Icons.email),
+                    label: const Text("Resend email"))
+                : Container(),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.05,
@@ -92,7 +104,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       Get.to(() => const Homepage());
                     },
                     icon: const Icon(Icons.home),
-                    label: Text("Go to homepage"))
+                    label: const Text("Go to homepage"))
                 : Container(),
           ],
         )),

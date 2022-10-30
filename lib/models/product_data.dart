@@ -18,7 +18,7 @@ class ProductDataListResponse {
   factory ProductDataListResponse.fromJson(List<dynamic> parsedJson) {
     List<Productdata> productDataList = [];
     productDataList = parsedJson.map((i) => Productdata.fromJson(i)).toList();
-    return new ProductDataListResponse(productDataList);
+    return ProductDataListResponse(productDataList);
   }
 //to JSON
   Map<String, dynamic> toJson() => {

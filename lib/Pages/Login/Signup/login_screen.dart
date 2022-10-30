@@ -62,9 +62,7 @@ class _Login_screenState extends State<Login_screen> {
           ),
         ));
       }
-    } else {
-      print('Form is invalid');
-    }
+    } else {}
   }
 
   @override
@@ -118,7 +116,7 @@ class _Login_screenState extends State<Login_screen> {
                           controller: emailcontroller,
                           decoration:
                               const InputDecoration(border: InputBorder.none),
-                          autofillHints: [AutofillHints.email],
+                          autofillHints: const [AutofillHints.email],
                           onFieldSubmitted: (value) {
                             FocusScope.of(context).requestFocus(passwordfocus);
                             setState(() {
@@ -126,11 +124,12 @@ class _Login_screenState extends State<Login_screen> {
                             });
                           },
                           validator: (value) {
-                            emailcontroller.text.length == 0
+                            var error = emailcontroller.text.isEmpty
                                 ? "Uh Oh! You forget to fill this"
                                 : EmailValidator.validate(emailcontroller.text)
                                     ? null
                                     : "Please fill a valid email address";
+                            return error;
                           },
                         ),
                       ),
@@ -161,9 +160,10 @@ class _Login_screenState extends State<Login_screen> {
                             });
                           },
                           validator: (value) {
-                            value?.length == 0
+                            var error = value!.isEmpty
                                 ? "Uh Oh! You forget to fill this"
                                 : null;
+                            return error;
                           },
                         ),
                       ),
@@ -279,6 +279,7 @@ class _Login_screenState extends State<Login_screen> {
                               });
                               try {
                                 await facebookcontroller.facebookLogin(context);
+                                setState(() {});
                               } catch (e) {
                                 return ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(

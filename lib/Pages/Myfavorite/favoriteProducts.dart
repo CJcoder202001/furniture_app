@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
@@ -28,7 +29,8 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
         total = total + dataController.favoriteProducts[i].price;
       });
     }
-    return total;
+    double avgoftotal = double.parse(total.toStringAsFixed(2));
+    return avgoftotal;
   }
 
   @override
@@ -73,64 +75,8 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
       ),
       body: Stack(
         children: [
-          Positioned(
-              bottom: 0,
-              left: 1,
-              right: 1,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.02,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.02,
-                            vertical:
-                                MediaQuery.of(context).size.height * 0.01),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total",
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(totalPriceOfItems().toString())
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.02,
-                        vertical: MediaQuery.of(context).size.height * 0.01),
-                    child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            fixedSize: Size(
-                                MediaQuery.of(context).size.width * 0.9,
-                                MediaQuery.of(context).size.height * 0.05)),
-                        onPressed: () async {},
-                        icon: const Icon(Icons.shopping_cart),
-                        label: Text(
-                          "Add to cart",
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.06),
-                        )),
-                  ),
-                ],
-              )),
-          Column(
+          ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -147,6 +93,7 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
               ),
               Obx(() => ListView.builder(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: dataController.favoriteProducts.length,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
@@ -222,8 +169,82 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                       );
                     },
                   )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+              ),
             ],
           ),
+          Positioned(
+              bottom: 0,
+              left: 1,
+              right: 1,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.02,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.02,
+                            vertical:
+                                MediaQuery.of(context).size.height * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Total",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.04,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(totalPriceOfItems().toString())
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.02,
+                        vertical: MediaQuery.of(context).size.height * 0.01),
+                    child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            fixedSize: Size(
+                                MediaQuery.of(context).size.width * 0.9,
+                                MediaQuery.of(context).size.height * 0.05)),
+                        onPressed: () {
+                          try {
+                            dataController.favoriteProducts.forEach((element) {
+                              dataController.addProducttocart(element);
+                            });
+                            Flushbar(
+                              title: "Hey Ninja",
+                              message:
+                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                              duration: const Duration(seconds: 3),
+                            ).show(context);
+                          } catch (error) {
+                            print(error);
+                          }
+                        },
+                        icon: const Icon(Icons.shopping_cart),
+                        label: Text(
+                          "Add to cart",
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.06),
+                        )),
+                  ),
+                ],
+              )),
         ],
       ),
     );

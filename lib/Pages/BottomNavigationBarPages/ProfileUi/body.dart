@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
-            press: () => {Get.to(() => AccountDetails())},
+            press: () => {Get.to(() => const AccountDetails())},
           ),
           ProfileMenu(
             text: "Notifications",

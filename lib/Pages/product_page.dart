@@ -8,6 +8,7 @@ import 'package:furniture_app/custom_shapes/customappbar.dart';
 import 'package:furniture_app/models/product_data.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductPage extends StatefulWidget {
   final Productdata product;
@@ -153,7 +154,27 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.01,
+                        vertical: MediaQuery.of(context).size.height * 0.01),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.black,
+                      highlightColor: Colors.grey,
+                      child: Container(
+                        child: Text(
+                          "Overall Rating: ${widget.product.rating.rate.toString()}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.01,
+                        vertical: MediaQuery.of(context).size.height * 0.02),
                     child: Text(
                       "Colours",
                       style: TextStyle(
@@ -298,7 +319,7 @@ class _ProductPageState extends State<ProductPage> {
                           color: color2,
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           widget.product.description,
                           textAlign: TextAlign.center,

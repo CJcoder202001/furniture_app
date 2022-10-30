@@ -9,6 +9,7 @@ import 'package:furniture_app/Pages/Mycart/cartpage.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 
 import 'package:furniture_app/Pages/product_page.dart';
+import 'package:furniture_app/Pages/shopnowpage.dart';
 import 'package:furniture_app/custom_shapes/box_icons.dart';
 import 'package:furniture_app/custom_shapes/shimmereffect.dart';
 import 'package:furniture_app/naviigation_drawer.dart';
@@ -66,7 +67,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         key: _key,
         resizeToAvoidBottomInset: false,
-        drawer: NavigationDrawer(),
+        drawer: const NavigationDrawer(),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ListView(
@@ -95,7 +96,7 @@ class _HomeState extends State<Home> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => FavoriteProductPage());
+                          Get.to(() => const FavoriteProductPage());
                         },
                         child: Icon(
                           Icons.favorite_border,
@@ -249,30 +250,35 @@ class _HomeState extends State<Home> {
                         Positioned(
                           bottom: MediaQuery.of(context).size.height * 0.027,
                           right: MediaQuery.of(context).size.width * 0.02,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(
-                                    MediaQuery.of(context).size.width * 0.01)),
-                            child: Padding(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width * 0.01),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Shop Now",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.orange),
-                                  ),
-                                  Icon(Icons.arrow_forward,
-                                      size: MediaQuery.of(context).size.width *
-                                          0.06,
-                                      color: Colors.orange)
-                                ],
+                          child: GestureDetector(
+                            onTap: () => Get.to(() => ShopNowPage()),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(
+                                      MediaQuery.of(context).size.width *
+                                          0.01)),
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                    MediaQuery.of(context).size.width * 0.01),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Shop Now",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.orange),
+                                    ),
+                                    Icon(Icons.arrow_forward,
+                                        size:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        color: Colors.orange)
+                                  ],
+                                ),
                               ),
                             ),
                           ),

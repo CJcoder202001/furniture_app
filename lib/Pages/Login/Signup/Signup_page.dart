@@ -1,20 +1,12 @@
 // ignore_for_file: unused_element
-
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/colors_preset.dart';
 import 'package:furniture_app/Functions/firebase.dart';
 import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/Login/Signup/login_screen.dart';
-import 'package:furniture_app/Pages/Verify/verify_email.dart';
-import 'package:furniture_app/Pages/check_user_data.dart';
 import 'package:furniture_app/custom_shapes/socialcard.dart';
 import 'package:get/get.dart';
-
-import 'package:uuid/uuid.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);

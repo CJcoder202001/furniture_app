@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
-import 'package:furniture_app/Functions/googleSignIn.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 import 'package:furniture_app/Pages/error.dart';
 import 'package:furniture_app/Pages/people.dart';

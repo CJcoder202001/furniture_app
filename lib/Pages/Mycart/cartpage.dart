@@ -23,12 +23,13 @@ class _CartPageState extends State<CartPage> {
 
   double totalPriceOfItems() {
     double total = 0;
-    for (int i = 0; i < dataController.favoriteProducts.length; i++) {
+    for (int i = 0; i < dataController.cartProducts.length; i++) {
       setState(() {
-        total = total + dataController.favoriteProducts[i].price;
+        total = total + dataController.cartProducts[i].price;
       });
     }
-    return total;
+    double avgoftotal = double.parse(total.toStringAsFixed(2));
+    return avgoftotal;
   }
 
   @override
@@ -73,6 +74,103 @@ class _CartPageState extends State<CartPage> {
       ),
       body: Stack(
         children: [
+          ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.02),
+                child: Center(
+                  child: Text(
+                    "Cart Products",
+                    style: TextStyle(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width * 0.05),
+                  ),
+                ),
+              ),
+              Obx(() => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: dataController.cartProducts.length,
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.03,
+                            vertical:
+                                MediaQuery.of(context).size.height * 0.006),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Obx(
+                            () => ListTile(
+                                leading: SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: CachedNetworkImage(
+                                    imageUrl: dataController
+                                        .cartProducts[index].image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      dataController.cartProducts[index].title,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(dataController
+                                        .cartProducts[index].price
+                                        .toString()),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      int itemindex = dataController
+                                          .favoriteProducts
+                                          .indexWhere((element) =>
+                                              element.id ==
+                                              dataController
+                                                  .cartProducts[index].id);
+                                      itemindex == -1
+                                          ? {
+                                              dataController
+                                                  .addProducttoFavorite(
+                                                      dataController
+                                                              .favoriteProducts[
+                                                          index])
+                                            }
+                                          : {
+                                              dataController
+                                                  .removefromFavorite(itemindex)
+                                            };
+                                    },
+                                    icon: dataController.favoriteProducts
+                                            .contains(dataController
+                                                .cartProducts[index])
+                                        ? const Icon(
+                                            Icons.favorite,
+                                            color: Colors.orange,
+                                          )
+                                        : const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.orange,
+                                          ))),
+                          ),
+                        ),
+                      );
+                    },
+                  )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+              ),
+            ],
+          ),
           Positioned(
               bottom: 0,
               left: 1,
@@ -130,100 +228,6 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               )),
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.02),
-                child: Center(
-                  child: Text(
-                    "Cart Products",
-                    style: TextStyle(
-                        color: Colors.orange,
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.width * 0.05),
-                  ),
-                ),
-              ),
-              Obx(() => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: dataController.favoriteProducts.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.03,
-                            vertical:
-                                MediaQuery.of(context).size.height * 0.006),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Obx(
-                            () => ListTile(
-                                leading: SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: CachedNetworkImage(
-                                    imageUrl: dataController
-                                        .favoriteProducts[index].image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dataController
-                                          .favoriteProducts[index].title,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(dataController
-                                        .favoriteProducts[index].price
-                                        .toString()),
-                                  ],
-                                ),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      int itemindex = dataController
-                                          .favoriteProducts
-                                          .indexWhere((element) =>
-                                              element.id ==
-                                              dataController
-                                                  .favoriteProducts[index].id);
-                                      itemindex == -1
-                                          ? {
-                                              dataController
-                                                  .addProducttoFavorite(
-                                                      dataController
-                                                              .favoriteProducts[
-                                                          index])
-                                            }
-                                          : {
-                                              dataController
-                                                  .removefromFavorite(itemindex)
-                                            };
-                                    },
-                                    icon: dataController.favoriteProducts
-                                            .contains(dataController
-                                                .favoriteProducts[index])
-                                        ? const Icon(
-                                            Icons.favorite,
-                                            color: Colors.orange,
-                                          )
-                                        : const Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.orange,
-                                          ))),
-                          ),
-                        ),
-                      );
-                    },
-                  )),
-            ],
-          ),
         ],
       ),
     );

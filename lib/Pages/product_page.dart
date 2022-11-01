@@ -38,300 +38,292 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: ListView(
-          children: [
-            const CustomAppbar(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Text(
-              widget.product.title,
-              style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: SizedBox(
-                  child: Hero(
-                tag: widget.product.id,
-                child: CachedNetworkImage(
-                  imageUrl: widget.product.image,
-                  fit: BoxFit.contain,
-                ),
-              )),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: color1,
-                borderRadius: BorderRadius.circular(10),
+      body: ListView(
+        children: [
+          const CustomAppbar(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          Text(
+            widget.product.title,
+            style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox(
+                child: Hero(
+              tag: widget.product.id,
+              child: CachedNetworkImage(
+                imageUrl: widget.product.image,
+                fit: BoxFit.contain,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "₹${widget.product.price}",
+            )),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: color1,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "₹${widget.product.price}",
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text("Emi from ${widget.product.price / 4}"),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Text(
+                                "Limited Time Price",
                                 style: TextStyle(
+                                    color: Colors.white,
                                     fontSize:
-                                        MediaQuery.of(context).size.width * 0.1,
-                                    fontWeight: FontWeight.bold),
+                                        MediaQuery.of(context).size.width *
+                                            0.025),
                               ),
-                              Text("Emi from ${widget.product.price / 4}"),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                    color: Colors.orange,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  "Limited Time Price",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.025),
-                                ),
-                              ),
-                              Obx(
-                                (() => InkWell(
-                                      onTap: () {
-                                        int index = dataController
-                                            .favoriteProducts
-                                            .indexWhere((element) =>
-                                                element.id ==
-                                                widget.product.id);
-                                        index == -1
-                                            ? {
-                                                dataController
-                                                    .addProducttoFavorite(
-                                                        widget.product)
-                                              }
-                                            : {
-                                                dataController
-                                                    .removefromFavorite(index)
-                                              };
-                                      },
-                                      child: Icon(
-                                        dataController.favoriteProducts
-                                                .contains(widget.product)
-                                            ? Icons.favorite_outlined
-                                            : Icons.favorite_border_outlined,
-                                        color: Colors.orange,
-                                        size:
-                                            MediaQuery.of(context).size.width *
-                                                0.1,
-                                      ),
-                                    )),
-                              )
-                            ],
-                          ),
-                        ],
+                            ),
+                            Obx(
+                              (() => InkWell(
+                                    onTap: () async {
+                                      int index = dataController
+                                          .favoriteProducts
+                                          .indexWhere((element) =>
+                                              element.id == widget.product.id);
+                                      index == -1
+                                          ? {
+                                              await dataController
+                                                  .addProducttoFavorite(
+                                                      widget.product)
+                                            }
+                                          : {
+                                              await dataController
+                                                  .removefromFavorite(index)
+                                            };
+                                    },
+                                    child: Icon(
+                                      dataController.favoriteProducts
+                                              .contains(widget.product)
+                                          ? Icons.favorite_outlined
+                                          : Icons.favorite_border_outlined,
+                                      color: Colors.orange,
+                                      size: MediaQuery.of(context).size.width *
+                                          0.1,
+                                    ),
+                                  )),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.01),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.black,
+                    highlightColor: Colors.grey,
+                    child: Container(
+                      child: Text(
+                        "Overall Rating: ${widget.product.rating.rate.toString()}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.05),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.01,
-                        vertical: MediaQuery.of(context).size.height * 0.01),
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.black,
-                      highlightColor: Colors.grey,
-                      child: Container(
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.01,
+                      vertical: MediaQuery.of(context).size.height * 0.02),
+                  child: Text(
+                    "Colours",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.06),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.17,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: colors.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            colorcurrentindex = index;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              height: colorcurrentindex == index
+                                  ? MediaQuery.of(context).size.height * 0.16
+                                  : MediaQuery.of(context).size.height * 0.15,
+                              width: colorcurrentindex == index
+                                  ? MediaQuery.of(context).size.width * 0.16
+                                  : MediaQuery.of(context).size.width * 0.15,
+                              decoration: BoxDecoration(
+                                  color: colors[index],
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    colorcurrentindex == index
+                                        ? const BoxShadow(
+                                            color:
+                                                Color.fromARGB(255, 80, 80, 80),
+                                            blurRadius: 10.0,
+                                          )
+                                        : const BoxShadow(),
+                                  ])),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {},
+                    splashColor: Colors.white,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
                         child: Text(
-                          "Overall Rating: ${widget.product.rating.rate.toString()}",
-                          style: TextStyle(
+                          "Buy Now",
+                          style: GoogleFonts.workSans(
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.05),
+                                  MediaQuery.of(context).size.width * 0.06),
                         ),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.01,
-                        vertical: MediaQuery.of(context).size.height * 0.02),
-                    child: Text(
-                      "Colours",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.06),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.17,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: colors.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              colorcurrentindex = index;
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                                height: colorcurrentindex == index
-                                    ? MediaQuery.of(context).size.height * 0.16
-                                    : MediaQuery.of(context).size.height * 0.15,
-                                width: colorcurrentindex == index
-                                    ? MediaQuery.of(context).size.width * 0.16
-                                    : MediaQuery.of(context).size.width * 0.15,
-                                decoration: BoxDecoration(
-                                    color: colors[index],
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      colorcurrentindex == index
-                                          ? const BoxShadow(
-                                              color: Color.fromARGB(
-                                                  255, 80, 80, 80),
-                                              blurRadius: 10.0,
-                                            )
-                                          : const BoxShadow(),
-                                    ])),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {},
-                      splashColor: Colors.white,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Buy Now",
-                            style: GoogleFonts.workSans(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.06),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text("Qty : "),
+                              Text("1"),
+                              Icon(Icons.arrow_downward),
+                            ],
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.01),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.64,
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text("Qty : "),
-                                Text("1"),
-                                Icon(Icons.arrow_downward),
-                              ],
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.01),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              width: MediaQuery.of(context).size.width * 0.64,
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.shopping_cart_outlined,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      "Add to cart",
-                                      style: GoogleFonts.workSans(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.05),
-                                    ),
-                                  ],
-                                ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "Add to cart",
+                                    style: GoogleFonts.workSans(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width *
+                                                0.05),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Description",
-                      style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.06),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: color2,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          widget.product.description,
-                          textAlign: TextAlign.center,
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Description",
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.06),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: color2, borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        widget.product.description,
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

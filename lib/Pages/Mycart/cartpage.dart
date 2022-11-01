@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
+import 'package:furniture_app/Functions/razorpay.dart';
+import 'package:furniture_app/custom_shapes/customappbar.dart';
 import 'package:get/get.dart';
 
 class CartPage extends StatefulWidget {
@@ -32,50 +35,18 @@ class _CartPageState extends State<CartPage> {
     return avgoftotal;
   }
 
+  doNothing(BuildContext context, int index) {
+    dataController.removefromcart(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.03),
-          child: GestureDetector(
-            onTap: () => Get.back(),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        leadingWidth: MediaQuery.of(context).size.width * 0.05,
-        title: Image.asset(biglogo,
-            scale: MediaQuery.of(context).size.width * 0.01),
-        backgroundColor: Colors.white,
-        actions: [
-          Icon(
-            Icons.search,
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Colors.black,
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Icon(
-            Icons.favorite_border,
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Colors.black,
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Icon(
-            Icons.shopping_cart_outlined,
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Colors.black,
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           ListView(
             children: [
+              const CustomAppbar(),
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 0.02),
@@ -105,63 +76,37 @@ class _CartPageState extends State<CartPage> {
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
-                          child: Obx(
-                            () => ListTile(
-                                leading: SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: CachedNetworkImage(
-                                    imageUrl: dataController
-                                        .cartProducts[index].image,
-                                    fit: BoxFit.cover,
+                          child: ListTile(
+                              leading: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      dataController.cartProducts[index].image,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    dataController.cartProducts[index].title,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      dataController.cartProducts[index].title,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(dataController
-                                        .cartProducts[index].price
-                                        .toString()),
-                                  ],
-                                ),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      int itemindex = dataController
-                                          .favoriteProducts
-                                          .indexWhere((element) =>
-                                              element.id ==
-                                              dataController
-                                                  .cartProducts[index].id);
-                                      itemindex == -1
-                                          ? {
-                                              dataController
-                                                  .addProducttoFavorite(
-                                                      dataController
-                                                              .favoriteProducts[
-                                                          index])
-                                            }
-                                          : {
-                                              dataController
-                                                  .removefromFavorite(itemindex)
-                                            };
-                                    },
-                                    icon: dataController.favoriteProducts
-                                            .contains(dataController
-                                                .cartProducts[index])
-                                        ? const Icon(
-                                            Icons.favorite,
-                                            color: Colors.orange,
-                                          )
-                                        : const Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.orange,
-                                          ))),
-                          ),
+                                  Text(dataController.cartProducts[index].price
+                                      .toString()),
+                                ],
+                              ),
+                              trailing: IconButton(
+                                  onPressed: () {
+                                    dataController.removefromcart(index);
+                                    totalPriceOfItems();
+                                  },
+                                  icon: const Icon(
+                                    Icons.remove_circle,
+                                    color: Colors.red,
+                                  ))),
                         ),
                       );
                     },
@@ -217,7 +162,12 @@ class _CartPageState extends State<CartPage> {
                             fixedSize: Size(
                                 MediaQuery.of(context).size.width * 0.9,
                                 MediaQuery.of(context).size.height * 0.05)),
-                        onPressed: () {},
+                        onPressed: () {
+                          print("1");
+                          double total = totalPriceOfItems();
+                          Get.to(() => RazorPayPayment(totalamount: total));
+                          print("2");
+                        },
                         icon: const Icon(Icons.shopping_bag),
                         label: Text(
                           "Checkout",

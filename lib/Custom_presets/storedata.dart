@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StoreDataController extends GetxController {
   RxList<Productdata> favoriteProducts = <Productdata>[].obs;
+  RxList<Productdata> OrderedProducts = <Productdata>[].obs;
   RxList<Productdata> cartProducts = <Productdata>[].obs;
   RxList updatedProducts = [].obs;
   RxList categories = [].obs;
@@ -57,6 +58,7 @@ class StoreDataController extends GetxController {
     });
     sharedPreferences.remove("favoritelist");
     sharedPreferences.setStringList("favoritelist", listdata);
+    // sharedPreferences.clear();
   }
 
   addProducttocart(Productdata Product) async {
@@ -69,14 +71,45 @@ class StoreDataController extends GetxController {
     });
     sharedPreferences.remove("cartlist");
     sharedPreferences.setStringList("cartlist", listdata);
+    // sharedPreferences.clear();
   }
 
-  removefromcart(int index) {
+  cartToOrder() async {
+    SharedPreferences sharedPreferences = await sharedPreferencesinstance;
+    List<String> listdata = [];
+
+    cartProducts.forEach((element) {
+      listdata.add(jsonEncode(element));
+    });
+    cartProducts.clear();
+    sharedPreferences.setStringList("Orderlist", listdata);
+    // sharedPreferences.clear();
+  }
+
+  removefromcart(int index) async {
+    SharedPreferences sharedPreferences = await sharedPreferencesinstance;
+    List<String> listdata = [];
+
     cartProducts.removeAt(index);
+    cartProducts.forEach((element) {
+      listdata.add(jsonEncode(element));
+    });
+    sharedPreferences.remove("cartlist");
+    sharedPreferences.setStringList("cartlist", listdata);
+    // sharedPreferences.clear();
   }
 
-  removefromFavorite(int index) {
+  removefromFavorite(int index) async {
+    SharedPreferences sharedPreferences = await sharedPreferencesinstance;
+    List<String> listdata = [];
+
     favoriteProducts.removeAt(index);
+    favoriteProducts.forEach((element) {
+      listdata.add(jsonEncode(element));
+    });
+    sharedPreferences.remove("favoritelist");
+    sharedPreferences.setStringList("favoritelist", listdata);
+    // sharedPreferences.clear();
   }
 
   getfavoritelistdata() async {
@@ -85,6 +118,8 @@ class StoreDataController extends GetxController {
     listdata?.forEach((element) {
       favoriteProducts.add(productdataFromJson(element));
     });
+    print(listdata);
+    // sharedPreferences.clear();
   }
 
   getcartlistdata() async {
@@ -93,6 +128,17 @@ class StoreDataController extends GetxController {
     listdata?.forEach((element) {
       cartProducts.add(productdataFromJson(element));
     });
+    print(listdata);
+    // sharedPreferences.clear();
+  }
+
+  getorderslistdata() async {
+    SharedPreferences sharedPreferences = await sharedPreferencesinstance;
+    var listdata = sharedPreferences.getStringList("Orderlist");
+    listdata?.forEach((element) {
+      OrderedProducts.add(productdataFromJson(element));
+    });
+    // sharedPreferences.clear();
   }
 
   Future getCategorieslist() async {

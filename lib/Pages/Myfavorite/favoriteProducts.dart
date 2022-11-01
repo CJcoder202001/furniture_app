@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
+import 'package:furniture_app/custom_shapes/customappbar.dart';
 import 'package:get/get.dart';
 
 class FavoriteProductPage extends StatefulWidget {
@@ -36,48 +37,12 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.03),
-          child: InkWell(
-            onTap: () => Get.back(),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        leadingWidth: MediaQuery.of(context).size.width * 0.05,
-        title: Image.asset(biglogo,
-            scale: MediaQuery.of(context).size.width * 0.01),
-        backgroundColor: Colors.white,
-        actions: [
-          Icon(
-            Icons.search,
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Colors.black,
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Icon(
-            Icons.favorite_border,
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Colors.black,
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Icon(
-            Icons.shopping_cart_outlined,
-            size: MediaQuery.of(context).size.width * 0.07,
-            color: Colors.black,
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
+              const CustomAppbar(),
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * 0.02),
@@ -152,6 +117,7 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                                               dataController
                                                   .removefromFavorite(itemindex)
                                             };
+                                      totalPriceOfItems();
                                     },
                                     icon: dataController.favoriteProducts
                                             .contains(dataController
@@ -226,10 +192,15 @@ class _FavoriteProductPageState extends State<FavoriteProductPage> {
                               dataController.addProducttocart(element);
                             });
                             Flushbar(
-                              title: "Hey Ninja",
-                              message:
-                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+                              title: "Added to cart",
+                              message: "The following items are added to cart",
                               duration: const Duration(seconds: 3),
+                              margin: const EdgeInsets.all(8),
+                              borderRadius: BorderRadius.circular(8),
+                              icon: const Icon(
+                                Icons.check,
+                                color: Colors.greenAccent,
+                              ),
                             ).show(context);
                           } catch (error) {
                             print(error);

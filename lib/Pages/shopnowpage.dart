@@ -19,67 +19,71 @@ class ShopNowPage extends StatelessWidget {
           width: double.infinity,
           child: ListView(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
               const CustomAppbar(),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: MediaQuery.of(context).size.width * 0.05,
-                    mainAxisSpacing: MediaQuery.of(context).size.height * 0.02,
-                    childAspectRatio:
-                        MediaQuery.of(context).size.aspectRatio * 1.2),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: dataController.updatedProducts.length,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => Get.to(() => ProductPage(
-                          product: dataController.updatedProducts[index],
-                        )),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Hero(
-                            tag: dataController.updatedProducts[index].id,
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  dataController.updatedProducts[index].image,
-                              fit: BoxFit.contain,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.03),
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing:
+                          MediaQuery.of(context).size.width * 0.05,
+                      mainAxisSpacing:
+                          MediaQuery.of(context).size.height * 0.02,
+                      childAspectRatio:
+                          MediaQuery.of(context).size.aspectRatio * 1.2),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemCount: dataController.updatedProducts.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => Get.to(() => ProductPage(
+                            product: dataController.updatedProducts[index],
+                          )),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Hero(
+                              tag: dataController.updatedProducts[index].id,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    dataController.updatedProducts[index].image,
+                                fit: BoxFit.fitWidth,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    dataController.updatedProducts[index].title,
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 3,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      dataController
+                                          .updatedProducts[index].title,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 3,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "₹${dataController.updatedProducts[index].price.toString()}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                                  Text(
+                                    "₹${dataController.updatedProducts[index].price.toString()}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               )
             ],
           )),

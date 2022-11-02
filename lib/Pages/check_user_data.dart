@@ -27,7 +27,7 @@ class _CheckUserDataState extends State<CheckUserData> {
           }
           if (snapshot.hasError) {
             // print("Snapshot has error checkpoint");
-            return const ErrorPage();
+            return const ErrorPage(true);
           }
           if (snapshot.hasData) {
             // print("Snapshot has data checkpoint");

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/Main_naming.dart';
 import 'package:furniture_app/Pages/Myfavorite/favoriteProducts.dart';
 import 'package:furniture_app/Pages/error.dart';
+import 'package:furniture_app/Pages/order/order_page.dart';
 import 'package:furniture_app/Pages/people.dart';
 import 'package:furniture_app/drawer_item.dart';
 import 'package:get/get.dart';
@@ -43,9 +44,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 height: 40,
               ),
               DrawerItem(
-                name: 'People',
-                icon: Icons.people,
-                onPressed: () {},
+                name: 'Orders',
+                icon: Icons.shop,
+                onPressed: () {
+                  Get.to(() => OrderPage());
+                },
               ),
               const SizedBox(
                 height: 30,
@@ -82,11 +85,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 height: 30,
               ),
               DrawerItem(
-                  name: 'Setting',
-                  icon: Icons.settings,
-                  onPressed: () {
-                    Get.to(() => const ErrorPage());
-                  }),
+                  name: 'Setting', icon: Icons.settings, onPressed: () {}),
               const SizedBox(
                 height: 30,
               ),

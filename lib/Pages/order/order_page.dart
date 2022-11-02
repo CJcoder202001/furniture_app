@@ -24,7 +24,7 @@ class OrderPage extends StatelessWidget {
                 vertical: MediaQuery.of(context).size.height * 0.02),
             child: Center(
               child: Text(
-                "Favorite Products",
+                "Ordered Products",
                 style: TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,
@@ -39,15 +39,15 @@ class OrderPage extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.03,
-                        vertical: MediaQuery.of(context).size.height * 0.006),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Obx(
-                        () => ListTile(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.03,
+                          vertical: MediaQuery.of(context).size.height * 0.006),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Obx(
+                          () => ListTile(
                             leading: SizedBox(
                               height: 100,
                               width: 100,
@@ -70,38 +70,9 @@ class OrderPage extends StatelessWidget {
                                     .toString()),
                               ],
                             ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  int itemindex = dataController
-                                      .favoriteProducts
-                                      .indexWhere((element) =>
-                                          element.id ==
-                                          dataController
-                                              .OrderedProducts[index].id);
-                                  itemindex == -1
-                                      ? {
-                                          dataController.addProducttoFavorite(
-                                              dataController
-                                                  .OrderedProducts[index])
-                                        }
-                                      : {
-                                          dataController
-                                              .removefromFavorite(itemindex)
-                                        };
-                                },
-                                icon: dataController.favoriteProducts.contains(
-                                        dataController.OrderedProducts[index])
-                                    ? const Icon(
-                                        Icons.favorite,
-                                        color: Colors.orange,
-                                      )
-                                    : const Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.orange,
-                                      ))),
-                      ),
-                    ),
-                  );
+                          ),
+                        ),
+                      ));
                 },
               )),
           SizedBox(

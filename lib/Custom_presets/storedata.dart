@@ -81,8 +81,13 @@ class StoreDataController extends GetxController {
     cartProducts.forEach((element) {
       listdata.add(jsonEncode(element));
     });
-    cartProducts.clear();
+
     sharedPreferences.setStringList("Orderlist", listdata);
+    print("1st time check: $cartProducts");
+    sharedPreferences.remove("cartlist");
+    await getorderslistdata();
+    await getcartlistdata();
+    print("2nd time check: $cartProducts");
     // sharedPreferences.clear();
   }
 
@@ -118,7 +123,7 @@ class StoreDataController extends GetxController {
     listdata?.forEach((element) {
       favoriteProducts.add(productdataFromJson(element));
     });
-    print(listdata);
+
     // sharedPreferences.clear();
   }
 
@@ -128,7 +133,7 @@ class StoreDataController extends GetxController {
     listdata?.forEach((element) {
       cartProducts.add(productdataFromJson(element));
     });
-    print(listdata);
+
     // sharedPreferences.clear();
   }
 

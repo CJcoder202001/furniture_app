@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
-  const ErrorPage({super.key});
+  final bool canexit;
+  const ErrorPage(this.canexit);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,10 @@ class ErrorPage extends StatelessWidget {
                   fontSize: MediaQuery.of(context).size.width * 0.03),
             ),
           ),
-          ElevatedButton(onPressed: () => exit(0), child: const Text("Exit")),
+          canexit
+              ? ElevatedButton(
+                  onPressed: () => exit(0), child: const Text("Exit"))
+              : Container(),
         ],
       ),
     );

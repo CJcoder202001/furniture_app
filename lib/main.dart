@@ -7,11 +7,16 @@ import 'package:furniture_app/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 late int? initscreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   SharedPreferences preferences = await SharedPreferences.getInstance();
   initscreen = (preferences.getInt("initscreen"));
   await preferences.setInt("initscreen", 1);

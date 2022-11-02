@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:furniture_app/Custom_presets/storedata.dart';
+import 'package:furniture_app/Pages/Homepage.dart';
 import 'package:furniture_app/Pages/Mycart/cartpage.dart';
+import 'package:furniture_app/Pages/error.dart';
 import 'package:furniture_app/Pages/orderedpage.dart';
 import 'package:furniture_app/custom_shapes/showicon.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:spring/spring.dart';
 
 class RazorPayPayment extends StatefulWidget {
   final double totalamount;
@@ -28,21 +32,22 @@ class _RazorPayPaymentState extends State<RazorPayPayment> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    const ShowIcon(
-        iconpath: "assets/Lottie/order-completed.gif",
-        message: "Yaay! Payment has been made!");
-    controller.cartToOrder();
-    await Future.delayed(const Duration(seconds: 3));
+    // // Get.to(() => const ShowIcon(
+    //     iconpath: "assets/Lottie/order-completed.gif",
+    //     message: "Yaay! Payment has been made!"));
+
+    await controller.cartToOrder();
     Get.to(() => const OrderedPage());
+    print(" success response: $response");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) async {
     // Do something when payment fails
-    const ShowIcon(
-        iconpath: "assets/Lottie/connection-error.gif",
-        message: "OOPS! Something went wrong! Try again later");
+    Get.to(() => const ErrorPage(false));
     await Future.delayed(const Duration(seconds: 3));
-    Get.back();
+    Get.to(() => const Homepage());
+
+    print(" failure response: $response");
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -76,16 +81,17 @@ class _RazorPayPaymentState extends State<RazorPayPayment> {
               onPressed: () {
                 var options = {
                   'key': 'rzp_test_Fp9dwVwgjgskpM',
-                  'amount': (widget.totalamount *
-                      100), //in the smallest currency sub-unit.
+                  'amount': (widget.totalamount * 100),
                   'name': 'Furniture app',
-                  'order_id':
-                      'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
                   'description': 'Product Order',
-                  'timeout': 300, // in seconds
+                  'retry': {'enabled': true, 'max_count': 1},
+                  'send_sms_hash': true,
                   'prefill': {
-                    'contact': '766948618',
+                    'contact': '7669486618',
                     'email': 'videoeditsbycj@gmail.com'
+                  },
+                  'external': {
+                    'wallets': ['paytm']
                   }
                 };
 

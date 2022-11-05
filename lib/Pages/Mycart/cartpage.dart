@@ -165,7 +165,25 @@ class _CartPageState extends State<CartPage> {
                         onPressed: () {
                           print("1");
                           double total = totalPriceOfItems();
-                          Get.to(() => RazorPayPayment(totalamount: total));
+                          total >= 1
+                              ? Get.to(
+                                  () => RazorPayPayment(totalamount: total))
+                              : Get.snackbar(
+                                  "Add items to cart",
+                                  "Your cart is empty. Add some items to your cart first.",
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.shopping_cart,
+                                      color: Colors.orange,
+                                      size: MediaQuery.of(context).size.width *
+                                          0.08,
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      Colors.orange.withOpacity(0.3),
+                                  snackPosition: SnackPosition.TOP,
+                                );
                           print("2");
                         },
                         icon: const Icon(Icons.shopping_bag),

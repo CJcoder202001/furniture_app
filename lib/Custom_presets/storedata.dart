@@ -19,6 +19,7 @@ class StoreDataController extends GetxController {
   List _categories = [].obs;
   List productsdata = [].obs;
   RxBool isloading = false.obs;
+  RxString search = "".obs;
 
   Future restapidata() async {
     var request = http.Request(

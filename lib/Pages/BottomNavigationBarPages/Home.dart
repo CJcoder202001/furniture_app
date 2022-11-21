@@ -127,6 +127,12 @@ class _HomeState extends State<Home> {
                       autocorrect: true,
                       controller: searchController,
                       focusNode: _searchTabFocus,
+                      onChanged: (value) {
+                        dataController.search = value.obs;
+                        if (value.isNotEmpty) {
+                          Get.to(() => ShopNowPage());
+                        }
+                      },
                       cursorColor: color6,
                       decoration: InputDecoration(
                         border: InputBorder.none,

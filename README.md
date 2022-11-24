@@ -4,6 +4,13 @@ A Furniture App Flutter project using Firebase, Google, Hive, Getx and other thi
 
 ## Getting Started
 
+
+
+
+https://user-images.githubusercontent.com/88575762/203810158-c2c4f220-11a9-4ff1-8b5a-619b21e5bf12.mp4
+
+
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
